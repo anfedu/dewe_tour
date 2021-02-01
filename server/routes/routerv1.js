@@ -46,22 +46,22 @@ router.patch("/user/:id", auth, fileUpload(), updateUser);
 // routing country
 router.get("/country", readAllCountry);
 router.get("/country/:id", readDetailCountry);
-router.post("/country", auth, createCountry);
-router.patch("/country/:id", auth, updateCountry);
-router.delete("/country/:id", auth, deleteCountry);
+router.post("/country", authAdmin, createCountry);
+router.patch("/country/:id", authAdmin, updateCountry);
+router.delete("/country/:id", authAdmin, deleteCountry);
 
 // routing trip
 router.get("/trip", readTrip);
 router.get("/trip/:id", readOneTrip);
-router.post("/trip", auth, createTrip);
-router.patch("/trip/:id", auth, updateTrip);
-router.delete("/trip/:id", auth, deleteTrip);
+router.post("/trip", authAdmin, fileUpload(), createTrip);
+router.patch("/trip/:id", authAdmin, updateTrip);
+router.delete("/trip/:id", authAdmin, deleteTrip);
 
 // routing Transaction
 router.get("/transaction", readAllTransaction);
 router.get("/transaction/:id", readOneTransaction);
 router.post("/transaction", auth, createTransaction);
-router.patch("/transaction/:id", auth, updateTransaction);
-router.delete("/transaction/:id", auth, deleteTransaction);
+router.patch("/transaction/:id", authAdmin, updateTransaction);
+router.delete("/transaction/:id", authAdmin, deleteTransaction);
 
 module.exports = router;
