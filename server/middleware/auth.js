@@ -32,8 +32,7 @@ exports.authAdmin = async (req, res, next) => {
     });
   try {
     const verified = jwt.verify(token, process.env.JWT_SCREET);
-    console.log(verified, "iki verified");
-    const user = await User.findOne({ where: { email: req.body.email } });
+    const user = await User.findOne({ where: { id: verified.id } });
     if (user.role !== "Admin")
       return res
         .status(400)

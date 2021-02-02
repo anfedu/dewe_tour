@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const fileUpload = require("express-fileupload");
 const { auth, authAdmin } = require("../middleware/auth");
-const { upload } = require("../middleware/upload");
 const {
   register,
   login,
@@ -60,7 +59,7 @@ router.delete("/trip/:id", authAdmin, deleteTrip);
 // routing Transaction
 router.get("/transaction", readAllTransaction);
 router.get("/transaction/:id", readOneTransaction);
-router.post("/transaction", auth, createTransaction);
+router.post("/transaction", createTransaction);
 router.patch("/transaction/:id", authAdmin, updateTransaction);
 router.delete("/transaction/:id", authAdmin, deleteTransaction);
 

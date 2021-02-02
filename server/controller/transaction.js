@@ -83,20 +83,13 @@ exports.readOneTransaction = async (req, res) => {
 
 exports.createTransaction = async (req, res) => {
   try {
-    // const { attachmentImage } = req.file;
+    // const { attachmentImage } = req.files;
     // const attachmentName = attachmentImage.name;
     // await attachmentImage.mv(`./images/${attachmentName}`);
 
-    const { counterQty, total, status, tripId, userId, attachment } = req.body;
     const transaction = await Transaction.create({
-      // ...req.body,
-      counterQty,
-      total,
-      status,
-      tripId,
-      userId,
-      attachment,
-      // attachment: imageTripName,
+      ...req.body,
+      // attachment: attachmentName,
     });
     res.status(200).send({
       status: 200,
@@ -104,7 +97,7 @@ exports.createTransaction = async (req, res) => {
       data: transaction,
     });
   } catch (err) {
-    res.status(500).send({ status: 500, message: "create transaction failed" });
+    console.log(err);
   }
 };
 

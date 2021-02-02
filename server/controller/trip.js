@@ -94,7 +94,7 @@ exports.createTrip = async (req, res) => {
       .status(200)
       .send({ status: 200, message: "create trip success", data: trip });
   } catch (err) {
-    res.status(500).send({ status: 500, message: "create trip failed" });
+    console.log(err);
   }
 };
 
