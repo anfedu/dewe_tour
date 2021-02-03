@@ -14,11 +14,33 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Open Sans",
     fontSize: 18,
     fontWeight: 400,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 14,
+    },
   },
   image: {
     position: "absolute",
     bottom: 0,
     right: 0,
+    [theme.breakpoints.down("md")]: {
+      width: 70,
+    },
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
+  },
+  reserved: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+  copy: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -26,8 +48,9 @@ export default function Footer() {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      Copyright @ 2020 Dewe Tour - Ahmad Nuril Firdaus - DW17YQDIL. All Rights
-      reserved
+      <span className={classes.copy}>Copyright</span> &copy; 2020 Dewe Tour -
+      Ahmad Nuril Firdaus{" "}
+      <span className={classes.reserved}>- DW17YQDIL. All Rights reserved</span>
       <img src="/cornerFooter.png" className={classes.image} alt="" />
     </Box>
   );

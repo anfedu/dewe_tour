@@ -17,5 +17,6 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
-  }
+  },
+  "proxy": "https://anfdewetourapi.herokuapp.com"
 }
