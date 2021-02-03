@@ -4,8 +4,7 @@
     "password": "postgres",
     "database": "dewetourapi",
     "host": "localhost",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
@@ -13,7 +12,6 @@
     "database": "dewetourapi",
     "host": "localhost",
     "dialect": "postgres",
-    "operatorsAliases": false,
     "use_env_variable": "DATABASE_URL"
   }
 }
