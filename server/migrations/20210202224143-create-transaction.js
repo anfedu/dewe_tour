@@ -21,7 +21,6 @@ module.exports = {
         type: Sequelize.STRING,
       },
       tripId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Trips",
@@ -31,7 +30,6 @@ module.exports = {
         onDelete: "CASCADE",
       },
       userId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Users",

@@ -12,7 +12,6 @@ module.exports = {
         type: Sequelize.STRING,
       },
       countryId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Countries",
@@ -74,4 +73,3 @@ module.exports = {
     await queryInterface.dropTable("Trips");
   },
 };
-

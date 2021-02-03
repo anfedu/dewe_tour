@@ -83,13 +83,13 @@ exports.readOneTransaction = async (req, res) => {
 
 exports.createTransaction = async (req, res) => {
   try {
-    // const { attachmentImage } = req.files;
-    // const attachmentName = attachmentImage.name;
-    // await attachmentImage.mv(`./images/${attachmentName}`);
+    const { attachmentImage } = req.files;
+    const attachmentName = attachmentImage.name;
+    await attachmentImage.mv(`./images/${attachmentName}`);
 
     const transaction = await Transaction.create({
       ...req.body,
-      // attachment: attachmentName,
+      attachment: attachmentName,
     });
     res.status(200).send({
       status: 200,
