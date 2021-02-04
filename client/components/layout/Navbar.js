@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Link from "../../src/Link";
+import Drawer from "./Drawer";
+import Modal from "./Modal";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -70,19 +72,39 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <AppBar color="transparent" position="relative" className={classes.appbar}>
       <Container>
         <Toolbar className={classes.toolbar}>
           <img src="/Icon.png" className={classes.icon} alt="dewe tour icon" />
           <Box className={classes.linkWrap}>
-            <Button variant="contained" className={classes.login}>
+            <Button
+              variant="contained"
+              className={classes.login}
+              onClick={handleClickOpen}
+            >
               Login
             </Button>
-            <Button variant="contained" className={classes.register}>
+            <Button
+              variant="contained"
+              className={classes.register}
+              onClick={handleClickOpen}
+            >
               Register
             </Button>
           </Box>
+          <Drawer handleClickOpen={handleClickOpen} />
+          <Modal open={open} handleClose={handleClose} />
         </Toolbar>
       </Container>
     </AppBar>

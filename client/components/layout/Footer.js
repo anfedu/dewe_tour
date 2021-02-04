@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Footer() {
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
+    <Box variant="div" className={classes.root}>
       <span className={classes.copy}>Copyright</span> &copy; 2020 Dewe Tour -
       Ahmad Nuril Firdaus{" "}
       <span className={classes.reserved}>- DW17YQDIL. All Rights reserved</span>

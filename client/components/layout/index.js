@@ -1,7 +1,6 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
       background:
         "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,18,18,0.3)), url('/jumbotron.png') no-repeat center center fixed",
       backgroundSize: "cover",
+      width: "100vw",
     },
   },
 }));
@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Layout({ children }) {
   const classes = useStyles();
   return (
-    <Box variant="div" className={classes.root}>
+    <div className={classes.root}>
       <Navbar />
       {children}
       <Footer />
-    </Box>
+    </div>
   );
 }
