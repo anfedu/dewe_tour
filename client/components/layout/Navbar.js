@@ -72,14 +72,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState({
+    login: false,
+    register: false,
+    modal: false,
+  });
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickLogin = () => {
+    setOpen({ modal: true, login: true });
+  };
+
+  const handleClickRegister = () => {
+    setOpen({ modal: true, register: true });
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen({ modal: false });
   };
 
   return (
@@ -91,19 +99,22 @@ export default function Navbar() {
             <Button
               variant="contained"
               className={classes.login}
-              onClick={handleClickOpen}
+              onClick={handleClickLogin}
             >
               Login
             </Button>
             <Button
               variant="contained"
               className={classes.register}
-              onClick={handleClickOpen}
+              onClick={handleClickRegister}
             >
               Register
             </Button>
           </Box>
-          <Drawer handleClickOpen={handleClickOpen} />
+          <Drawer
+            handleClickLogin={handleClickLogin}
+            handleClickRegister={handleClickRegister}
+          />
           <Modal open={open} handleClose={handleClose} />
         </Toolbar>
       </Container>

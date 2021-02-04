@@ -83,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SwipeableTemporaryDrawer({
   user,
   logout,
-  handleClickOpen,
+  handleClickLogin,
+  handleClickRegister,
 }) {
   const classes = useStyles();
   const [state, setState] = useState({
@@ -115,7 +116,7 @@ export default function SwipeableTemporaryDrawer({
             <Button
               variant="contained"
               className={classes.login}
-              onClick={handleClickOpen}
+              onClick={handleClickLogin}
             >
               Login
             </Button>
@@ -124,7 +125,7 @@ export default function SwipeableTemporaryDrawer({
             <Button
               variant="contained"
               className={classes.register}
-              onClick={handleClickOpen}
+              onClick={handleClickRegister}
             >
               Register
             </Button>

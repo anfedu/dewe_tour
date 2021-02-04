@@ -7,7 +7,7 @@ import Link from "../../src/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   form: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+export default function Register(props) {
   const classes = useStyles();
   const [errors, setErrors] = useState("");
   const [values, setValues] = useState("");
@@ -62,7 +62,7 @@ export default function Login(props) {
         variant="h5"
         style={{ fontSize: 36, fontWeight: "bold" }}
       >
-        Login
+        Register
       </Typography>
       {Object.keys(errors).length > 0 && (
         <Alert severity="error" className={classes.alert}>
@@ -71,6 +71,41 @@ export default function Login(props) {
       )}
       <form className={classes.form} noValidate>
         <Grid container spacing={2} justify="center">
+          <Grid item xs={12} sm={11}>
+            <label
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              Username
+            </label>
+            <TextField
+              variant="outlined"
+              required
+              size="small"
+              fullWidth
+              id="username"
+              type="text"
+              error={errors ? true : false}
+              name="username"
+              autoComplete="username"
+              InputLabelProps={{
+                shrink: true,
+                classes: {
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          </Grid>
           <Grid item xs={12} sm={11}>
             <label
               style={{
@@ -91,7 +126,6 @@ export default function Login(props) {
               name="username"
               autoComplete="username"
               InputLabelProps={{
-                shrink: true,
                 classes: {
                   root: classes.cssLabel,
                   focused: classes.cssFocused,
@@ -141,25 +175,84 @@ export default function Login(props) {
             />
           </Grid>
           <Grid item xs={12} sm={11}>
+            <label
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              Phone
+            </label>
+            <TextField
+              variant="outlined"
+              required
+              size="small"
+              fullWidth
+              id="username"
+              type="text"
+              error={errors ? true : false}
+              name="username"
+              autoComplete="username"
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={11}>
+            <label
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              Address
+            </label>
+            <TextField
+              variant="outlined"
+              required
+              size="small"
+              fullWidth
+              id="username"
+              type="text"
+              error={errors ? true : false}
+              name="username"
+              autoComplete="username"
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={11}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               className={classes.submit}
             >
-              Login
+              Register
             </Button>
           </Grid>
         </Grid>
-        <Box align="center" style={{ color: "#B1B1B1" }}>
-          Don't have an account yet?{" "}
-          <Button
-            color="inherit"
-            style={{ textTransform: "none", color: "#777" }}
-          >
-            Register here
-          </Button>
-        </Box>
       </form>
     </div>
   );
