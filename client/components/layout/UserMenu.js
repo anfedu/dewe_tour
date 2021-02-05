@@ -1,17 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useRouter } from "next/router";
 import {
   IconButton,
-  Grow,
+  Collapse,
   Popper,
   Paper,
   MenuList,
   MenuItem,
   ClickAwayListener,
   Avatar,
+  Divider,
+  Box,
 } from "@material-ui/core";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,11 +27,29 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  arrow: {
+    width: 0,
+    height: 0,
+    borderLeft: "15px solid transparent",
+    borderRight: "15px solid transparent",
+    borderBottom: "17px solid white",
+    position: "absolute",
+    top: -7,
+    right: theme.spacing(2),
+  },
+  menu: { marginLeft: 10, fontSize: 18, fontWeight: "bold" },
+  icon: { marginLeft: 20 },
+  menuItem: {
+    "&:hover": {
+      backgroundColor: "#444",
+    },
+  },
 }));
 
 export default function UserMenu({ user, logout }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const router = useRouter();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -69,6 +88,9 @@ export default function UserMenu({ user, logout }) {
   }, [open]);
 
   const classes = useStyles();
+  function randomColor(string) {
+    return "#f" + string.slice(1, 6);
+  }
 
   return (
     <div className={classes.root}>
@@ -79,9 +101,13 @@ export default function UserMenu({ user, logout }) {
         onClick={handleToggle}
       >
         <Avatar
-          style={{ backgroundColor: randomColor(user.id), fontWeight: "bold" }}
+          style={{
+            backgroundColor: randomColor(user.phone ? user.phone : "pink"),
+            fontWeight: "bold",
+            fontSize: 25,
+          }}
         >
-          {user.username.slice(0, 1).toUpperCase()}
+          {user?.username?.slice(0, 1).toUpperCase()}
         </Avatar>
       </IconButton>
       <Popper
@@ -89,35 +115,50 @@ export default function UserMenu({ user, logout }) {
         anchorEl={anchorRef.current}
         role={undefined}
         transition
+        placement="bottom-end"
         disablePortal
       >
         {({ TransitionProps, placement }) => (
-          <Grow
+          <Collapse
             {...TransitionProps}
             style={{
               transformOrigin:
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper>
+            <Paper
+              style={{
+                width: 220,
+                height: 187,
+              }}
+            >
+              <Box variant="div" className={classes.arrow} />
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
+                  style={{ paddingTop: 20 }}
                 >
                   <MenuItem onClick={handleClose}>
-                    <AccountCircleIcon />{" "}
-                    <span style={{ marginLeft: 5 }}>Profile</span>
+                    <img src="/user.png" className={classes.icon} alt="" />{" "}
+                    <span className={classes.menu}>Profile</span>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
-                    <ExitToAppIcon />{" "}
-                    <span style={{ marginLeft: 5 }}>Logout</span>
+                    <img src="/bill.png" className={classes.icon} alt="" />{" "}
+                    <span className={classes.menu}>Pay</span>
+                  </MenuItem>
+                  <Divider
+                    style={{ height: 3, marginTop: 20, marginBottom: 10 }}
+                  />
+                  <MenuItem onClick={handleLogout}>
+                    <img src="/logout.png" className={classes.icon} alt="" />{" "}
+                    <span className={classes.menu}>Logout</span>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
-          </Grow>
+          </Collapse>
         )}
       </Popper>
       <Paper className={classes.menuMobileWrapper}>
@@ -127,12 +168,13 @@ export default function UserMenu({ user, logout }) {
             id="menu-list-grow"
             onKeyDown={handleListKeyDown}
           >
-            <MenuItem onClick={handleClose}>
-              <AccountCircleIcon />{" "}
-              <span style={{ marginLeft: 5 }}>Profile</span>
+            <MenuItem className={classes.menuItem} onClick={handleClose}>
+              <img src="/user.png" alt="" />{" "}
+              <span className={classes.menu}>Profile</span>
             </MenuItem>
-            <MenuItem onClick={handleLogout}>
-              <ExitToAppIcon /> <span style={{ marginLeft: 5 }}>Logout</span>
+            <MenuItem className={classes.menuItem} onClick={handleLogout}>
+              <img src="/logout.png" alt="" />{" "}
+              <span className={classes.menu}>Logout</span>
             </MenuItem>
           </MenuList>
         </ClickAwayListener>

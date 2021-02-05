@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import MobilRightMenuSlider from "@material-ui/core/Drawer";
-import { Box, List, Button, ListItem } from "@material-ui/core";
+import { Box, List, Button, ListItem, Avatar } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Link from "../../src/Link";
 import UserMenu from "./UserMenu";
@@ -108,7 +108,7 @@ export default function SwipeableTemporaryDrawer({
       className={classes.listContainer}
       component="div"
     >
-      {user ? (
+      {Object.values(user)[0] !== null ? (
         <UserMenu user={user} logout={logout} />
       ) : (
         <List>
@@ -135,16 +135,32 @@ export default function SwipeableTemporaryDrawer({
     </Box>
   );
 
+  function randomColor(string) {
+    return "#f" + string.slice(1, 6);
+  }
+
   return (
     <div className={classes.menuWrapper}>
       <React.Fragment>
         <Button onClick={toggleDrawer("top", true)}>
-          <MenuIcon
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          />
+          {Object.values(user)[0] !== null ? (
+            <Avatar
+              style={{
+                backgroundColor: randomColor(user.phone ? user.phone : "pink"),
+                fontWeight: "bold",
+                fontSize: 25,
+              }}
+            >
+              {user?.username?.slice(0, 1).toUpperCase()}
+            </Avatar>
+          ) : (
+            <MenuIcon
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            />
+          )}
         </Button>
         <MobilRightMenuSlider
           classes={{

@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: "#ffaf00",
     height: 50,
-    fontFamily: "Open Sans",
     color: "white",
     textTransform: "none",
     fontSize: 18,
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
   },
   cssFocused: {
-    fontFamily: "Open Sans",
     fontWeight: 600,
     color: "#777",
     "&:hover": {

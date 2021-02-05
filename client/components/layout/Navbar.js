@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import Link from "../../src/Link";
 import Drawer from "./Drawer";
-import Modal from "./Modal";
+import dynamic from "next/dynamic";
+import Link from "../../src/Link";
+import { AuthContext } from "../../src/Provider";
+import UserMenu from "./UserMenu";
+
+const ModalNoSsr = dynamic(() => import("./Modal"), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -28,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     fontWeight: "bold",
     boxShadow: "none",
-    fontFamily: "Open Sans",
     "&:hover": {
       background: "none",
       border: "1px solid white",
@@ -44,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     textTransform: "none",
     boxShadow: "none",
-    fontFamily: "Open Sans",
     "&:hover": {
       backgroundColor: "#ffaf00",
       border: "none",
@@ -55,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       position: "absolute",
       left: 0,
+      top: 0,
     },
     [theme.breakpoints.down("xs")]: {
       position: "absolute",
@@ -69,53 +74,69 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({}) {
   const classes = useStyles();
+  const context = useContext(AuthContext);
+  const { user, logout } = context;
 
   const [open, setOpen] = React.useState({
     login: false,
     register: false,
-    modal: false,
+    modal: "",
   });
 
   const handleClickLogin = () => {
-    setOpen({ modal: true, login: true });
+    setOpen({ modal: "login", login: true });
   };
 
   const handleClickRegister = () => {
-    setOpen({ modal: true, register: true });
+    setOpen({ modal: "register", register: true });
   };
 
   const handleClose = () => {
-    setOpen({ modal: false });
+    setOpen({ login: false, register: false });
   };
 
   return (
     <AppBar color="transparent" position="relative" className={classes.appbar}>
       <Container>
         <Toolbar className={classes.toolbar}>
-          <img src="/Icon.png" className={classes.icon} alt="dewe tour icon" />
+          <Link href="/">
+            <img
+              src="/Icon.png"
+              className={classes.icon}
+              alt="dewe tour icon"
+            />
+          </Link>
           <Box className={classes.linkWrap}>
-            <Button
-              variant="contained"
-              className={classes.login}
-              onClick={handleClickLogin}
-            >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              className={classes.register}
-              onClick={handleClickRegister}
-            >
-              Register
-            </Button>
+            {Object.values(user)[0] !== null ? (
+              <UserMenu user={user} logout={logout} />
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  className={classes.login}
+                  onClick={handleClickLogin}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  className={classes.register}
+                  onClick={handleClickRegister}
+                >
+                  Register
+                </Button>
+              </>
+            )}
           </Box>
           <Drawer
+            user={user}
+            logout={logout}
             handleClickLogin={handleClickLogin}
             handleClickRegister={handleClickRegister}
           />
-          <Modal open={open} handleClose={handleClose} />
+          <ModalNoSsr open={open} handleClose={handleClose} />
         </Toolbar>
       </Container>
     </AppBar>

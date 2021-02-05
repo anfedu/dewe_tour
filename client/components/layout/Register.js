@@ -2,12 +2,10 @@ import React, { useState, useContext } from "react";
 import { Button, TextField, Grid, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
-import { useForm } from "../../src/hooks";
-import Link from "../../src/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(6),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   form: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(5),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),

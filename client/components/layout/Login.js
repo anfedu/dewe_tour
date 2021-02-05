@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Button, TextField, Grid, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
-import { useForm } from "../../src/hooks";
-import Link from "../../src/Link";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   form: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     width: "100%",
     backgroundColor: "rgba(156, 39, 176, 0.2)",
-    color: "#ccc",
   },
   cssLabel: {
     color: "pink",
@@ -50,10 +48,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+export default function Login({
+  errors,
+  isLoading,
+  onChange,
+  onSubmit,
+  setErrors,
+  values,
+}) {
   const classes = useStyles();
-  const [errors, setErrors] = useState("");
-  const [values, setValues] = useState("");
 
   return (
     <div className={classes.root}>
@@ -64,13 +67,19 @@ export default function Login(props) {
       >
         Login
       </Typography>
-      {Object.keys(errors).length > 0 && (
-        <Alert severity="error" className={classes.alert}>
-          {errors}
-        </Alert>
-      )}
       <form className={classes.form} noValidate>
         <Grid container spacing={2} justify="center">
+          <Grid item xs={12} sm={11}>
+            {errors !== undefined && Object.keys(errors).length > 0 && (
+              <Alert
+                severity="error"
+                className={classes.alert}
+                onClose={() => setErrors("")}
+              >
+                {errors}
+              </Alert>
+            )}
+          </Grid>
           <Grid item xs={12} sm={11}>
             <label
               style={{
@@ -85,11 +94,12 @@ export default function Login(props) {
               required
               size="small"
               fullWidth
-              id="username"
+              id="email"
               type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
+              name="email"
+              onChange={onChange}
+              value={values.email}
+              autoComplete="email"
               InputLabelProps={{
                 shrink: true,
                 classes: {
@@ -120,11 +130,12 @@ export default function Login(props) {
               required
               size="small"
               fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
+              id="password"
+              type="password"
+              name="password"
+              autoComplete="password"
+              value={values.password}
+              onChange={onChange}
               InputLabelProps={{
                 classes: {
                   root: classes.cssLabel,
@@ -146,8 +157,13 @@ export default function Login(props) {
               fullWidth
               variant="contained"
               className={classes.submit}
+              onClick={onSubmit}
             >
-              Login
+              {isLoading ? (
+                <CircularProgress style={{ color: "white" }} />
+              ) : (
+                "Login"
+              )}
             </Button>
           </Grid>
         </Grid>

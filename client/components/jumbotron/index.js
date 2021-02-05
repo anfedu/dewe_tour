@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   title: {
-    fontFamily: "Open Sans",
     fontWeight: 600,
     fontSize: 64,
     letterSpacing: -3,
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   subTitle: {
-    fontFamily: "Open Sans",
     fontSize: 64,
     fontWeight: 3,
     letterSpacing: -2,

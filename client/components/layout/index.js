@@ -1,8 +1,8 @@
-import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomScrollDiv from "./CustomScroll";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Navbar from "./Navbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -22,6 +22,16 @@ export default function index() {
   const classes = useStyles();
   return (
     <Grid container spacing={3} justify="center" className={classes.root}>
+      <img
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 433,
+          zIndex: -999,
+        }}
+        src="hibicius.png"
+        alt=""
+      />
       <ListCard />
     </Grid>
   );

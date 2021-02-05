@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     bottom: 0,
     color: "white",
-    fontFamily: "Open Sans",
     fontSize: 18,
     fontWeight: 400,
     [theme.breakpoints.down("md")]: {
