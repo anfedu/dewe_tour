@@ -4,7 +4,8 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
-import { Provider } from "../src/Provider";
+import { AuthProvider } from "../src/Provider";
+import { QueryProvider } from "../src/Query";
 // import "../src/onHoverStyle.css";
 
 export default function MyApp(props) {
@@ -28,10 +29,12 @@ export default function MyApp(props) {
         <link rel="icon" href="Icon.png" />
       </Head>
       <ThemeProvider theme={theme}>
-        <Provider>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </Provider>
+        <AuthProvider>
+          <QueryProvider>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </QueryProvider>
+        </AuthProvider>
       </ThemeProvider>
     </React.Fragment>
   );

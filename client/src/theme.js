@@ -16,6 +16,9 @@ const theme = createMuiTheme({
     background: {
       default: "#E5E5E5",
     },
+    danger: {
+      default: "#f48fb1",
+    },
   },
   typography: {
     fontFamily: ["Open Sans"].join(","),

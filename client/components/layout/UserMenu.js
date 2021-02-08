@@ -13,6 +13,11 @@ import {
   Divider,
   Box,
 } from "@material-ui/core";
+import Link from "../../src/Link";
+
+function randomColor(string) {
+  return "#f" + string.slice(1, 6);
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,13 +40,29 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "17px solid white",
     position: "absolute",
     top: -7,
-    right: theme.spacing(2),
+    right: theme.spacing(3),
   },
-  menu: { marginLeft: 10, fontSize: 18, fontWeight: "bold" },
+  menu: {
+    marginLeft: 13,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
+    [theme.breakpoints.down("md")]: {
+      color: "white",
+    },
+  },
   icon: { marginLeft: 20 },
   menuItem: {
     "&:hover": {
       backgroundColor: "#444",
+    },
+  },
+  avatar: {
+    fontWeight: "bold",
+    fontSize: 25,
+    [theme.breakpoints.up("lg")]: {
+      width: 50,
+      height: 50,
     },
   },
 }));
@@ -64,6 +85,7 @@ export default function UserMenu({ user, logout }) {
 
   const handleLogout = (event) => {
     logout();
+    router.push("/");
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -88,9 +110,6 @@ export default function UserMenu({ user, logout }) {
   }, [open]);
 
   const classes = useStyles();
-  function randomColor(string) {
-    return "#f" + string.slice(1, 6);
-  }
 
   return (
     <div className={classes.root}>
@@ -101,10 +120,9 @@ export default function UserMenu({ user, logout }) {
         onClick={handleToggle}
       >
         <Avatar
+          className={classes.avatar}
           style={{
             backgroundColor: randomColor(user.phone ? user.phone : "pink"),
-            fontWeight: "bold",
-            fontSize: 25,
           }}
         >
           {user?.username?.slice(0, 1).toUpperCase()}
@@ -129,7 +147,6 @@ export default function UserMenu({ user, logout }) {
             <Paper
               style={{
                 width: 220,
-                height: 187,
               }}
             >
               <Box variant="div" className={classes.arrow} />
@@ -138,23 +155,68 @@ export default function UserMenu({ user, logout }) {
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
-                  style={{ paddingTop: 20 }}
                 >
-                  <MenuItem onClick={handleClose}>
-                    <img src="/user.png" className={classes.icon} alt="" />{" "}
-                    <span className={classes.menu}>Profile</span>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>
-                    <img src="/bill.png" className={classes.icon} alt="" />{" "}
-                    <span className={classes.menu}>Pay</span>
-                  </MenuItem>
-                  <Divider
-                    style={{ height: 3, marginTop: 20, marginBottom: 10 }}
-                  />
-                  <MenuItem onClick={handleLogout}>
-                    <img src="/logout.png" className={classes.icon} alt="" />{" "}
-                    <span className={classes.menu}>Logout</span>
-                  </MenuItem>
+                  {user.role === "Admin" ? (
+                    <Box variant="div">
+                      <MenuItem
+                        component={Link}
+                        href="/trip"
+                        onClick={handleClose}
+                        style={{ marginTop: 5 }}
+                      >
+                        <img
+                          src="/journey.png"
+                          className={classes.icon}
+                          alt=""
+                        />{" "}
+                        <span className={classes.menu}>Trip</span>
+                      </MenuItem>
+                      <Divider
+                        style={{ height: 3, marginTop: 15, marginBottom: 10 }}
+                      />
+                      <MenuItem onClick={handleLogout}>
+                        <img
+                          src="/logout.png"
+                          className={classes.icon}
+                          alt=""
+                        />{" "}
+                        <span className={classes.menu}>Logout</span>
+                      </MenuItem>
+                    </Box>
+                  ) : (
+                    <Box variant="div">
+                      <MenuItem
+                        component={Link}
+                        href={`/profile/${user.username}`}
+                        onClick={handleClose}
+                        style={{
+                          marginTop: 10,
+                        }}
+                      >
+                        <img src="/user.png" className={classes.icon} alt="" />{" "}
+                        <span className={classes.menu}>Profile</span>
+                      </MenuItem>
+                      <MenuItem
+                        component={Link}
+                        href={`/pay/${user.username}`}
+                        onClick={handleClose}
+                      >
+                        <img src="/bill.png" className={classes.icon} alt="" />{" "}
+                        <span className={classes.menu}>Pay</span>
+                      </MenuItem>
+                      <Divider
+                        style={{ height: 3, marginTop: 20, marginBottom: 10 }}
+                      />
+                      <MenuItem onClick={handleLogout}>
+                        <img
+                          src="/logout.png"
+                          className={classes.icon}
+                          alt=""
+                        />{" "}
+                        <span className={classes.menu}>Logout</span>
+                      </MenuItem>
+                    </Box>
+                  )}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -168,14 +230,48 @@ export default function UserMenu({ user, logout }) {
             id="menu-list-grow"
             onKeyDown={handleListKeyDown}
           >
-            <MenuItem className={classes.menuItem} onClick={handleClose}>
-              <img src="/user.png" alt="" />{" "}
-              <span className={classes.menu}>Profile</span>
-            </MenuItem>
-            <MenuItem className={classes.menuItem} onClick={handleLogout}>
-              <img src="/logout.png" alt="" />{" "}
-              <span className={classes.menu}>Logout</span>
-            </MenuItem>
+            {user.role === "Admin" ? (
+              <Box variant="div">
+                <MenuItem
+                  component={Link}
+                  href="/trip"
+                  className={classes.menuItem}
+                  onClick={handleClose}
+                >
+                  <img src="/journey.png" alt="" />{" "}
+                  <span className={classes.menu}>Trip</span>
+                </MenuItem>
+                <MenuItem className={classes.menuItem} onClick={handleLogout}>
+                  <img src="/logout.png" alt="" />{" "}
+                  <span className={classes.menu}>Logout</span>
+                </MenuItem>
+              </Box>
+            ) : (
+              <Box variant="div">
+                <MenuItem
+                  component={Link}
+                  href={`/profile/${user.username}`}
+                  className={classes.menuItem}
+                  onClick={handleClose}
+                >
+                  <img src="/user.png" alt="" />{" "}
+                  <span className={classes.menu}>Profile</span>
+                </MenuItem>
+                <MenuItem
+                  component={Link}
+                  href={`/pay/${user.username}`}
+                  className={classes.menuItem}
+                  onClick={handleClose}
+                >
+                  <img src="/bill.png" alt="" />{" "}
+                  <span className={classes.menu}>Pay</span>
+                </MenuItem>
+                <MenuItem className={classes.menuItem} onClick={handleLogout}>
+                  <img src="/logout.png" alt="" />{" "}
+                  <span className={classes.menu}>Logout</span>
+                </MenuItem>
+              </Box>
+            )}
           </MenuList>
         </ClickAwayListener>
       </Paper>

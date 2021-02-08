@@ -27,7 +27,7 @@ function authReducer(state, action) {
   }
 }
 
-function Provider(props) {
+function AuthProvider(props) {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [values, setValues] = useState({});
 
@@ -39,6 +39,7 @@ function Provider(props) {
         phone: localStorage.getItem("phone"),
         address: localStorage.getItem("address"),
         profile: localStorage.getItem("profile"),
+        role: localStorage.getItem("role"),
       };
       setValues(values);
     } else {
@@ -53,6 +54,7 @@ function Provider(props) {
     localStorage.setItem("phone", data.phone);
     localStorage.setItem("address", data.address);
     localStorage.setItem("profile", data.profile);
+    localStorage.setItem("role", data.role);
     dispatch({
       type: "LOGIN",
       payload: data,
@@ -76,4 +78,4 @@ function Provider(props) {
   );
 }
 
-export { AuthContext, Provider };
+export { AuthContext, AuthProvider };

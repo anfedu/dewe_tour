@@ -2,10 +2,11 @@ import React, { useState, useContext } from "react";
 import { Button, TextField, Grid, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(3),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     width: "100%",
     backgroundColor: "rgba(156, 39, 176, 0.2)",
-    color: "#ccc",
   },
   cssLabel: {
     color: "pink",
@@ -48,10 +48,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register(props) {
+export default function Register({
+  errors,
+  isLoading,
+  onChange,
+  onSubmit,
+  setErrors,
+  values,
+  errorType,
+}) {
   const classes = useStyles();
-  const [errors, setErrors] = useState("");
-  const [values, setValues] = useState("");
+  const registerArr = [
+    { id: 1, Label: "Username", name: "username", type: "text" },
+    { id: 2, Label: "Email", name: "email", type: "text" },
+    { id: 3, Label: "Password", name: "password", type: "password" },
+    { id: 4, Label: "Phone", name: "phone", type: "text" },
+    { id: 5, Label: "Address", name: "address", type: "text" },
+  ];
 
   return (
     <div className={classes.root}>
@@ -62,192 +75,73 @@ export default function Register(props) {
       >
         Register
       </Typography>
-      {Object.keys(errors).length > 0 && (
-        <Alert severity="error" className={classes.alert}>
-          {errors}
-        </Alert>
-      )}
       <form className={classes.form} noValidate>
         <Grid container spacing={2} justify="center">
           <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Username
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
-              InputLabelProps={{
-                shrink: true,
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
+            {errors !== undefined && Object.keys(errors).length > 0 && (
+              <Alert
+                severity="error"
+                className={classes.alert}
+                onClose={() => setErrors("")}
+              >
+                {errors}
+              </Alert>
+            )}
           </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Email
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Password
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Phone
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Address
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="username"
-              type="text"
-              error={errors ? true : false}
-              name="username"
-              autoComplete="username"
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
+          {registerArr.map((item, index) => (
+            <Grid item xs={12} sm={11} key={index}>
+              <label
+                style={{
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                {item.Label}
+              </label>
+              <TextField
+                variant="outlined"
+                required
+                size="small"
+                fullWidth
+                id={`${item.name}`}
+                type={`${item.type}`}
+                error={errors ? true : false}
+                name={`${item.name}`}
+                autoComplete={`${item.name}`}
+                value={values[item.name]}
+                onChange={onChange}
+                error={errorType[item.name] ? true : false}
+                helperText={errorType[item.name] && `${item.Label} is required`}
+                InputLabelProps={{
+                  shrink: true,
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+              />
+            </Grid>
+          ))}
           <Grid item xs={12} sm={11}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               className={classes.submit}
+              onClick={onSubmit}
             >
-              Register
+              {isLoading ? (
+                <CircularProgress style={{ color: "white" }} />
+              ) : (
+                "Register"
+              )}
             </Button>
           </Grid>
         </Grid>

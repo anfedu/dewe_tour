@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(3),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -55,8 +55,13 @@ export default function Login({
   onSubmit,
   setErrors,
   values,
+  errorType,
 }) {
   const classes = useStyles();
+  const loginArr = [
+    { id: 1, label: "Email", name: "email", type: "text" },
+    { id: 2, label: "Password", name: "password", type: "password" },
+  ];
 
   return (
     <div className={classes.root}>
@@ -80,77 +85,46 @@ export default function Login({
               </Alert>
             )}
           </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Email
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="email"
-              type="text"
-              name="email"
-              onChange={onChange}
-              value={values.email}
-              autoComplete="email"
-              InputLabelProps={{
-                shrink: true,
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={11}>
-            <label
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-              }}
-            >
-              Password
-            </label>
-            <TextField
-              variant="outlined"
-              required
-              size="small"
-              fullWidth
-              id="password"
-              type="password"
-              name="password"
-              autoComplete="password"
-              value={values.password}
-              onChange={onChange}
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
+          {loginArr.map((item, index) => (
+            <Grid item xs={12} sm={11} key={index}>
+              <label
+                style={{
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                {item.label}
+              </label>
+              <TextField
+                variant="outlined"
+                required
+                size="small"
+                fullWidth
+                id={`${item.name}`}
+                type={`${item.type}`}
+                name={`${item.name}`}
+                onChange={onChange}
+                value={values[item.name]}
+                autoComplete={`${item.name}`}
+                error={errorType[item.name] ? true : false}
+                helperText={errorType[item.name] && `${item.label} is required`}
+                InputLabelProps={{
+                  shrink: true,
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+              />
+            </Grid>
+          ))}
           <Grid item xs={12} sm={11}>
             <Button
               type="submit"

@@ -3,12 +3,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import MobilRightMenuSlider from "@material-ui/core/Drawer";
 import { Box, List, Button, ListItem, Avatar } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import Link from "../../src/Link";
 import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: "rgba(0,0,0, 0.7)",
+    [theme.breakpoints.up("lg")]: {
+      display: "none",
+    },
   },
   fullList: {
     width: "auto",
@@ -78,6 +80,15 @@ const useStyles = makeStyles((theme) => ({
       border: "none",
     },
   },
+  avatar: {
+    fontWeight: "bold",
+    fontSize: 25,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 17,
+      width: 33,
+      height: 33,
+    },
+  },
 }));
 
 export default function SwipeableTemporaryDrawer({
@@ -145,10 +156,9 @@ export default function SwipeableTemporaryDrawer({
         <Button onClick={toggleDrawer("top", true)}>
           {Object.values(user)[0] !== null ? (
             <Avatar
+              className={classes.avatar}
               style={{
                 backgroundColor: randomColor(user.phone ? user.phone : "pink"),
-                fontWeight: "bold",
-                fontSize: 25,
               }}
             >
               {user?.username?.slice(0, 1).toUpperCase()}

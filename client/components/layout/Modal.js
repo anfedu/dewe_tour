@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Dialog, DialogContent, Slide } from "@material-ui/core";
 import Login from "./Login";
 import Register from "./Register";
@@ -25,43 +25,91 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function ModalLogin({ open, handleClose }) {
+export default function ModalLogin({ open, setOpen }) {
   const classes = useStyles();
   const context = useContext(AuthContext);
   const router = useRouter();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [values, setValues] = useState({
+  const [errorType, setErrorType] = useState({
+    username: false,
+    email: false,
+    password: false,
+    address: false,
+    phone: false,
+  });
+  const [logins, setLogins] = useState({
     email: "",
     password: "",
   });
+  const [registers, setRegisters] = useState({
+    username: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
+  });
+
+  const handleClose = () => {
+    setOpen({ login: false, register: false });
+    setLogins({ email: "", password: "" });
+    setRegisters({
+      username: "",
+      email: "",
+      password: "",
+      phone: "",
+      address: "",
+    });
+  };
+
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
   const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const target = e.target.name;
+    const value = e.target.value;
+    setLogins({ ...logins, [target]: value });
+    setRegisters({ ...registers, [target]: value });
+    if (value.length < 5) {
+      setErrorType({ [target]: true });
+    } else if ([target][0] === "email" && !validateEmail(value)) {
+      setErrorType({ [target]: true });
+    } else {
+      setErrorType({ [target]: false });
+    }
   };
 
   const loginUser = async () => {
     setIsLoading(true);
     const response = await fetch(
-      "https://anfdewetourapi.herokuapp.com/api/v1/login",
+      `${process.env.server}/api/v1/${open.login ? "login" : "register"}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(logins || registers),
       }
     );
-    const data = await response.json(values);
+    const data = await response.json(logins || registers);
     setIsLoading(false);
     if (data.status === 500) {
       setErrors(data.error.message);
     }
     if (data.status === 200) {
-      router.push("/");
+      router.prefetch("/");
       context.login(data.data);
       handleClose();
-      setValues({ email: "", password: "" });
+      setLogins({ email: "", password: "" });
+      setRegisters({
+        username: "",
+        email: "",
+        password: "",
+        phone: "",
+        address: "",
+      });
     }
     return data;
   };
@@ -85,12 +133,12 @@ export default function ModalLogin({ open, handleClose }) {
         <DialogContent className={classes.root}>
           <img
             style={{ position: "absolute", top: 0, right: 0 }}
-            src="hibiciusLogin.png"
+            src="/hibiciusLogin.png"
             alt=""
           />
           <img
             style={{ position: "absolute", top: 0, left: 0 }}
-            src="palmLogin.png"
+            src="/palmLogin.png"
             alt=""
           />
           <Login
@@ -99,7 +147,8 @@ export default function ModalLogin({ open, handleClose }) {
             onSubmit={onSubmit}
             errors={errors}
             setErrors={setErrors}
-            values={values}
+            values={logins}
+            errorType={errorType}
           />
         </DialogContent>
       </Dialog>
@@ -115,12 +164,12 @@ export default function ModalLogin({ open, handleClose }) {
         <DialogContent className={classes.root}>
           <img
             style={{ position: "absolute", top: 0, right: 0 }}
-            src="hibiciusLogin.png"
+            src="/hibiciusLogin.png"
             alt=""
           />
           <img
             style={{ position: "absolute", top: 0, left: 0 }}
-            src="palmLogin.png"
+            src="/palmLogin.png"
             alt=""
           />
           <Register
@@ -129,7 +178,8 @@ export default function ModalLogin({ open, handleClose }) {
             onSubmit={onSubmit}
             errors={errors}
             setErrors={setErrors}
-            values={values}
+            values={registers}
+            errorType={errorType}
           />
         </DialogContent>
       </Dialog>

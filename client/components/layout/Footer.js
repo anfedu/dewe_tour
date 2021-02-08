@@ -5,6 +5,7 @@ import { Box } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#ffaf00",
+    width: "100%",
     height: "54px",
     lineHeight: "54px",
     textAlign: "center",

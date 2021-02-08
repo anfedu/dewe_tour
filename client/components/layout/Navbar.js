@@ -6,10 +6,10 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Drawer from "./Drawer";
-import dynamic from "next/dynamic";
-import Link from "../../src/Link";
 import { AuthContext } from "../../src/Provider";
 import UserMenu from "./UserMenu";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 const ModalNoSsr = dynamic(() => import("./Modal"), {
   ssr: false,
@@ -76,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar({}) {
   const classes = useStyles();
+  const router = useRouter();
   const context = useContext(AuthContext);
   const { user, logout } = context;
 
@@ -93,21 +94,21 @@ export default function Navbar({}) {
     setOpen({ modal: "register", register: true });
   };
 
-  const handleClose = () => {
-    setOpen({ login: false, register: false });
-  };
-
   return (
-    <AppBar color="transparent" position="relative" className={classes.appbar}>
+    <AppBar
+      id="header"
+      color="transparent"
+      position="relative"
+      className={classes.appbar}
+    >
       <Container>
         <Toolbar className={classes.toolbar}>
-          <Link href="/">
-            <img
-              src="/Icon.png"
-              className={classes.icon}
-              alt="dewe tour icon"
-            />
-          </Link>
+          <img
+            src="/Icon.png"
+            className={classes.icon}
+            alt="dewe tour icon"
+            onClick={() => router.push("/")}
+          />
           <Box className={classes.linkWrap}>
             {Object.values(user)[0] !== null ? (
               <UserMenu user={user} logout={logout} />
@@ -136,7 +137,7 @@ export default function Navbar({}) {
             handleClickLogin={handleClickLogin}
             handleClickRegister={handleClickRegister}
           />
-          <ModalNoSsr open={open} handleClose={handleClose} />
+          <ModalNoSsr open={open} setOpen={setOpen} />
         </Toolbar>
       </Container>
     </AppBar>
