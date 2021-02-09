@@ -1,20 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../components/layout";
-import dynamic from "next/dynamic";
-
-const AddTrip = dynamic(() => import("../../components/addtrip"), {
-  ssr: false,
-});
+import Pay from "../../components/book";
 
 const useStyles = makeStyles((theme) => ({}));
 
-export default function addtrip() {
+export default function index() {
   const classes = useStyles();
-
   return (
     <Layout>
-      <AddTrip />
+      <Pay />
     </Layout>
   );
 }

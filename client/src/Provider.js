@@ -34,6 +34,7 @@ function AuthProvider(props) {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const values = {
+        id: localStorage.getItem("id"),
         username: localStorage.getItem("username"),
         email: localStorage.getItem("email"),
         phone: localStorage.getItem("phone"),
@@ -48,6 +49,7 @@ function AuthProvider(props) {
   }, []);
 
   function login(data) {
+    localStorage.setItem("id", data.id);
     localStorage.setItem("token", data.token);
     localStorage.setItem("username", data.username);
     localStorage.setItem("email", data.email);

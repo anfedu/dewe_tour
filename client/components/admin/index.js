@@ -1,12 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Button } from "@material-ui/core";
-import Link from "../../src/Link";
+import { Box, Typography } from "@material-ui/core";
+import TableAdmin from "./TableAdmin";
+import { QueryContext } from "../../src/Query";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
-    padding: "100px 13vh",
+    padding: "50px 13vh 100px 13vh",
     minHeight: "81.7vh",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
@@ -14,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       minHeight: "87.1vh",
     },
-    display: "flex",
-    justifyContent: "space-between",
   },
   button: {
     height: 48,
@@ -26,15 +25,27 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     fontWeight: "bold",
   },
+  title: {
+    fontFamily: "Nunito",
+    fontSize: 36,
+    fontWeight: 900,
+    marginBottom: 17,
+  },
 }));
 
 export default function Admin() {
   const classes = useStyles();
+  const query = React.useContext(QueryContext);
+  const { state, loading, getTransaction } = query;
+  React.useEffect(() => {
+    getTransaction();
+  }, []);
   return (
-    <Grid className={classes.root} container spacing={0} justify="center">
-      <Grid item xs={5}>
-        Admin
-      </Grid>
-    </Grid>
+    <Box variant="div" className={classes.root}>
+      <Typography variant="h3" className={classes.title}>
+        Incoming Transaction
+      </Typography>
+      <TableAdmin rows={state.transaction} />
+    </Box>
   );
 }

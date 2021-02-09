@@ -13,7 +13,11 @@ import {
 import Link from "./Link";
 import { formatDate, dayName, formatMoney, formatString } from "./formatter";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import dynamic from "next/dynamic";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+const SubmitButton = dynamic(() => import("../components/book/SubmitButton"), {
+  ssr: false,
+});
 // import Image from "next/image";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#878787",
   },
   cardTransaction: {
+    marginBottom: 20,
     display: "flex",
     width: 1035,
     height: 419,
@@ -69,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       minHeight: 319,
-      padding: "7px 3px 3px 3px",
+      padding: "7px 7px 3px 7px",
     },
   },
   icon: {
@@ -88,12 +93,21 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 12,
     },
   },
-  alert: {
+  danger: {
     width: 115,
     height: 24,
     fontSize: 12,
     borderColor: "#f48fb1",
     color: "#f48fb1",
+    backgroundColor: "rgba(255,189,203, 0.1)",
+    borderRadius: 3,
+  },
+  warning: {
+    width: 115,
+    height: 24,
+    fontSize: 12,
+    borderColor: "#ffcc00",
+    color: "#ffcc00",
     backgroundColor: "rgba(255,189,203, 0.1)",
     borderRadius: 3,
   },
@@ -127,6 +141,10 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: 138,
     height: 138,
+    [theme.breakpoints.down("xs")]: {
+      width: 100,
+      height: 100,
+    },
   },
   buttonImage: {
     marginTop: 20,
@@ -287,14 +305,24 @@ export function CardTrip({ item }) {
   );
 }
 
-export function CardTransaction({ user, price, count, item }) {
+export function CardTransaction({
+  user,
+  price,
+  count,
+  item,
+  string,
+  status,
+  attachment,
+}) {
   const classes = useStyles();
-  const [previewImage, setPreviewImage] = React.useState("");
+  const [previewImage, setPreviewImage] = React.useState([]);
+  const [files, setFiles] = React.useState(null);
   const onChange = (e) => {
     let file = e.target.files[0];
     let reader = new FileReader();
+    setFiles(file);
     reader.onload = () => {
-      setPreviewImage({ ...previewImage, [e.target.name]: [reader.result] });
+      setPreviewImage([reader.result]);
     };
     reader.readAsDataURL(file);
   };
@@ -328,8 +356,14 @@ export function CardTransaction({ user, price, count, item }) {
           <Chip
             variant="outlined"
             size="small"
-            label="Waiting payment"
-            className={classes.alert}
+            label={
+              status === "approve"
+                ? "Approve"
+                : status === "cancel"
+                ? "Cancel"
+                : "Waiting payment"
+            }
+            className={classes.warning}
           />
         </Grid>
         <Grid item md={2} lg={2} className={classes.grid1}>
@@ -403,14 +437,18 @@ export function CardTransaction({ user, price, count, item }) {
             component="label"
             className={classes.buttonImage}
             onChange={onChange}
-            style={{ padding: Object.keys(previewImage).length > 0 && 0 }}
+            style={{
+              padding: Object.keys(previewImage).length > 0 && 0,
+            }}
           >
-            {Object.keys(previewImage).length > 0 ? (
+            {attachment.length > 0 ? (
               <img
-                src={previewImage.attachment}
+                src={`${process.env.server}/images/${attachment}`}
                 className={classes.image}
                 alt=""
               />
+            ) : Object.keys(previewImage).length > 0 ? (
+              <img src={previewImage} className={classes.image} alt="" />
             ) : (
               <React.Fragment>
                 <InsertPhotoIcon
@@ -418,7 +456,7 @@ export function CardTransaction({ user, price, count, item }) {
                 />
               </React.Fragment>
             )}
-            <input id="attachment" name="attachment" type="file" hidden />
+            <input id="attachment" name="attachmentImage" type="file" hidden />
             <label htmlFor="attachment" className={classes.label} style={{}}>
               Upload payment
             </label>
@@ -561,7 +599,7 @@ export function CardTransaction({ user, price, count, item }) {
             className={classes.count}
             style={{ color: "red", marginTop: 15 }}
           >
-            IDR. {formatMoney(price)}
+            {formatMoney(price)}
           </Typography>
         </Grid>
         <Grid item lg={12} style={{ position: "absolute" }}>
@@ -569,7 +607,7 @@ export function CardTransaction({ user, price, count, item }) {
             <Divider
               style={{
                 height: 1,
-                width: "95vw",
+                width: "92vw",
                 position: "absolute",
                 top: 393,
               }}
@@ -589,6 +627,16 @@ export function CardTransaction({ user, price, count, item }) {
           />
         </Grid>
       </Grid>
+      {Object.keys(string).length > 0 && (
+        <SubmitButton
+          user={user}
+          price={price}
+          count={count}
+          files={files}
+          tripId={item.id}
+          status={status}
+        />
+      )}
     </Card>
   );
 }

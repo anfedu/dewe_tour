@@ -1,17 +1,16 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { AuthContext } from "../../src/Provider";
 import { QueryContext } from "../../src/Query";
-import { useRouter } from "next/router";
 import { CardTransaction } from "../../src/CardFormat";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "50px 13vh",
     minHeight: "81.7vh",
-    display: "flex",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
       padding: "50px 3vh",
@@ -34,29 +33,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pay() {
   const classes = useStyles();
-  const router = useRouter();
-  const price = router.query.pid;
-  const count = router.query.cid;
-  const tripId = router.query.tid;
   const context = React.useContext(AuthContext);
   const query = React.useContext(QueryContext);
   const { user } = context;
-  const { state, getTrip } = query;
+  const { state, getTransaction, loading } = query;
+  const [items, setItems] = React.useState([]);
+  const [alert, setAlert] = React.useState("");
 
   React.useEffect(() => {
-    if (tripId) {
-      getTrip(tripId);
+    if (state.transaction.length > 0) {
+      const array = [...state.transaction];
+      const filter = array.filter((d) => d.userId === parseInt(user.id));
+      setItems(filter);
+      if (filter.length === 0) {
+        setAlert("You have never done a transaction");
+      }
     }
-  }, [tripId]);
+  }, [state.transaction]);
+  React.useEffect(() => {
+    getTransaction();
+  }, []);
 
   return (
     <Box variant="div" className={classes.root}>
-      <CardTransaction
-        user={user}
-        price={price}
-        count={count}
-        item={state.trip}
-      />
+      {Object.keys(alert).length > 0 && (
+        <Alert
+          severity="warning"
+          className={classes.alert}
+          onClose={() => setAlert("")}
+        >
+          {alert}
+        </Alert>
+      )}
+      {items.map((item, index) => (
+        <Box key={index} variant="div">
+          <CardTransaction
+            user={user}
+            price={30}
+            count={3}
+            item={item.trip}
+            status={item.status}
+            string=""
+            attachment={item.attachment}
+          />
+        </Box>
+      ))}
     </Box>
   );
 }

@@ -84,8 +84,9 @@ export default function UserMenu({ user, logout }) {
   };
 
   const handleLogout = (event) => {
-    logout();
+    event.preventDefault();
     router.push("/");
+    logout();
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -187,7 +188,7 @@ export default function UserMenu({ user, logout }) {
                     <Box variant="div">
                       <MenuItem
                         component={Link}
-                        href={`/profile/${user.username}`}
+                        href={`/profile`}
                         onClick={handleClose}
                         style={{
                           marginTop: 10,
@@ -198,7 +199,7 @@ export default function UserMenu({ user, logout }) {
                       </MenuItem>
                       <MenuItem
                         component={Link}
-                        href={`/pay/${user.username}`}
+                        href={`/pay/`}
                         onClick={handleClose}
                       >
                         <img src="/bill.png" className={classes.icon} alt="" />{" "}
@@ -250,7 +251,7 @@ export default function UserMenu({ user, logout }) {
               <Box variant="div">
                 <MenuItem
                   component={Link}
-                  href={`/profile/${user.username}`}
+                  href={`/profile`}
                   className={classes.menuItem}
                   onClick={handleClose}
                 >
@@ -259,7 +260,7 @@ export default function UserMenu({ user, logout }) {
                 </MenuItem>
                 <MenuItem
                   component={Link}
-                  href={`/pay/${user.username}`}
+                  href={`/pay`}
                   className={classes.menuItem}
                   onClick={handleClose}
                 >

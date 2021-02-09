@@ -1,7 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button, IconButton } from "@material-ui/core";
-import SubmitButton from "./SubmitButton";
+import dynamic from "next/dynamic";
+const SubmitButton = dynamic(() => import("./SubmitButton"), {
+  ssr: false,
+});
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 import AttachmentIcon from "@material-ui/icons/Attachment";
 
