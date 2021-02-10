@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "50px 13vh",
-    minHeight: "81.7vh",
+    minHeight: "81vh",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
       padding: "50px 3vh",
@@ -36,23 +36,20 @@ export default function Pay() {
   const context = React.useContext(AuthContext);
   const query = React.useContext(QueryContext);
   const { user } = context;
-  const { state, getTransaction, loading } = query;
+  const { state, getTransactionUser, loading } = query;
   const [items, setItems] = React.useState([]);
   const [alert, setAlert] = React.useState("");
 
   React.useEffect(() => {
-    if (state.transaction.length > 0) {
-      const array = [...state.transaction];
-      const filter = array.filter((d) => d.userId === parseInt(user.id));
-      setItems(filter);
-      if (filter.length === 0) {
-        setAlert("You have never done a transaction");
-      }
+    if (user.id) {
+      getTransactionUser(user.id);
     }
-  }, [state.transaction]);
+  }, [user.id]);
   React.useEffect(() => {
-    getTransaction();
-  }, []);
+    if (state.transactionUser.length > 0) {
+      setItems(state.transactionUser);
+    }
+  }, [state.transactionUser]);
 
   return (
     <Box variant="div" className={classes.root}>
@@ -69,12 +66,13 @@ export default function Pay() {
         <Box key={index} variant="div">
           <CardTransaction
             user={user}
-            price={30}
-            count={3}
+            price={item.total}
+            count={item.counterQty}
             item={item.trip}
             status={item.status}
             string=""
             attachment={item.attachment}
+            admin=""
           />
         </Box>
       ))}

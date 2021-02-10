@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     margin: 0,
+    [theme.breakpoints.up("lg")]: {
+      height: 78,
+    },
   },
   toolbar: {
     display: "flext",
@@ -111,7 +114,7 @@ export default function Navbar({}) {
           />
           <Box className={classes.linkWrap}>
             {Object.values(user)[0] !== null ? (
-              <UserMenu user={user} logout={logout} />
+              <UserMenu user={user} logout={logout} drawerState="" />
             ) : (
               <>
                 <Button

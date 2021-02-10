@@ -1,21 +1,23 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button } from "@material-ui/core";
-import Link from "../../src/Link";
+import CardProfile from "./CardProfile";
+import History from "./History";
+import { QueryContext } from "../../src/Query";
+import { AuthContext } from "../../src/Provider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "100px 13vh",
-    minHeight: "81.7vh",
-    [theme.breakpoints.down("md")]: {
+    minHeight: "81vh",
+    [theme.breakpoints.down("sm")]: {
       minHeight: "82.99vh",
+      padding: "90px 1vh",
     },
     [theme.breakpoints.down("xs")]: {
       minHeight: "87.1vh",
     },
-    display: "flex",
-    justifyContent: "space-between",
   },
   button: {
     height: 48,
@@ -30,11 +32,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Admin() {
   const classes = useStyles();
+  const context = React.useContext(AuthContext);
+  const query = React.useContext(QueryContext);
+  const { user, login } = context;
+  const { getTransactionUser, state } = query;
+  React.useEffect(() => {
+    if (user) {
+      getTransactionUser(user.id);
+    }
+  }, [user]);
   return (
     <Grid className={classes.root} container spacing={0} justify="center">
-      <Grid item xs={5}>
-        Admin
-      </Grid>
+      <CardProfile user={user} login={login} />
+      <History user={user} histories={state.transactionUser} />
     </Grid>
   );
 }

@@ -100,6 +100,7 @@ export default function SwipeableTemporaryDrawer({
   const classes = useStyles();
   const [state, setState] = useState({
     right: false,
+    drawer: "open",
   });
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -120,7 +121,7 @@ export default function SwipeableTemporaryDrawer({
       component="div"
     >
       {Object.values(user)[0] !== null ? (
-        <UserMenu user={user} logout={logout} />
+        <UserMenu user={user} logout={logout} drawerState={state.drawer} />
       ) : (
         <List>
           <ListItem>
@@ -156,6 +157,9 @@ export default function SwipeableTemporaryDrawer({
         <Button onClick={toggleDrawer("top", true)}>
           {Object.values(user)[0] !== null ? (
             <Avatar
+              src={
+                user.profile && `${process.env.server}/images/${user.profile}`
+              }
               className={classes.avatar}
               style={{
                 backgroundColor: randomColor(user.phone ? user.phone : "pink"),

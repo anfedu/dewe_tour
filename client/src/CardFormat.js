@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     height: 350,
     padding: "7px 9px",
     borderRadius: 5,
+    "&:hover": {
+      backgroundColor: "#eee",
+    },
     [theme.breakpoints.down("sm")]: {
       width: 500,
     },
@@ -92,6 +95,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       fontSize: 12,
     },
+  },
+  approve: {
+    width: 115,
+    height: 24,
+    fontSize: 12,
+    borderColor: "#0ACF83",
+    color: "#0ACF83",
+    backgroundColor: "rgba(255,189,203, 0.1)",
+    borderRadius: 3,
   },
   danger: {
     width: 115,
@@ -232,7 +244,7 @@ const useStyles = makeStyles((theme) => ({
   gridUser: {
     [theme.breakpoints.down("sm")]: {
       marginTop: -50,
-      borderBottom: "2px solid #ccc",
+      borderBottom: "2px solid #eee",
     },
     [theme.breakpoints.down("xs")]: {
       borderBottom: "0px solid #ccc",
@@ -248,6 +260,9 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     textAlign: "center",
     fontSize: 13,
+    "&:hover": {
+      backgroundColor: "#eee",
+    },
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
@@ -284,6 +299,8 @@ export function CardTrip({ item }) {
       <Card className={classes.cardTrip}>
         <img
           className={classes.media}
+          onLoad={() => {}}
+          onError={() => {}}
           src={`${url}/images/${item.image}`}
           alt=""
         />
@@ -313,6 +330,7 @@ export function CardTransaction({
   string,
   status,
   attachment,
+  admin,
 }) {
   const classes = useStyles();
   const [previewImage, setPreviewImage] = React.useState([]);
@@ -331,7 +349,13 @@ export function CardTransaction({
   const matchesXs = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
-    <Card className={classes.cardTransaction}>
+    <Card
+      className={classes.cardTransaction}
+      style={{
+        border: admin === "admin" && "none",
+        boxShadow: admin === "admin" && "none",
+      }}
+    >
       <Grid container spacing={1}>
         <Grid item xs={6} sm={6} md={4} lg={4}>
           <img src="/Icon2.png" className={classes.icon} alt="" />
@@ -363,7 +387,13 @@ export function CardTransaction({
                 ? "Cancel"
                 : "Waiting payment"
             }
-            className={classes.warning}
+            className={
+              status === "approve"
+                ? classes.approve
+                : status === "cancel"
+                ? classes.danger
+                : classes.warning
+            }
           />
         </Grid>
         <Grid item md={2} lg={2} className={classes.grid1}>
@@ -457,9 +487,11 @@ export function CardTransaction({
               </React.Fragment>
             )}
             <input id="attachment" name="attachmentImage" type="file" hidden />
-            <label htmlFor="attachment" className={classes.label} style={{}}>
-              Upload payment
-            </label>
+            {Object.keys(string).length > 0 && (
+              <label htmlFor="attachment" className={classes.label} style={{}}>
+                Upload payment
+              </label>
+            )}
           </Button>
         </Grid>
         <Grid item xs={4} sm={4} className={classes.grid2}>
@@ -599,7 +631,7 @@ export function CardTransaction({
             className={classes.count}
             style={{ color: "red", marginTop: 15 }}
           >
-            {formatMoney(price)}
+            IDR. {formatMoney(price)}
           </Typography>
         </Grid>
         <Grid item lg={12} style={{ position: "absolute" }}>

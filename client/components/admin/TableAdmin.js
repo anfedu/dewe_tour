@@ -10,6 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import { formatString } from "../../src/formatter";
+import ModalApprove from "./ModalApprove";
+import Link from "../../src/Link";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -19,10 +21,6 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: 14,
-  },
-  icon: {
-    fontSize: 25,
-    color: "#2FC5F7",
   },
 }))(TableCell);
 
@@ -40,59 +38,80 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomizedTables({ rows }) {
+export default function CustomizedTables({ rows, dispatch }) {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [item, setItem] = React.useState({});
+
+  const handleOpen = (row) => {
+    setOpen(true);
+    setItem(row);
+  };
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="left">No</StyledTableCell>
-            <StyledTableCell>Users</StyledTableCell>
-            <StyledTableCell align="left">Trip</StyledTableCell>
-            <StyledTableCell align="left">Proof Payment</StyledTableCell>
-            <StyledTableCell align="left">Status</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, i) => (
-            <StyledTableRow key={i}>
-              <StyledTableCell align="left">{i + 1}</StyledTableCell>
-              <StyledTableCell component="th" scope="row">
-                {row.user.username}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {formatString(row.trip.title, 20)}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {formatString(row.trip.image, 20)}
-              </StyledTableCell>
-              <StyledTableCell
-                align="left"
-                style={{
-                  color:
-                    row.status === "approve"
-                      ? "springgreen"
-                      : row.status === "cancel"
-                      ? "#df4759"
-                      : "#ffcc00",
-                }}
-              >
-                {row.status.toLowerCase() === "waiting payment"
-                  ? "pending"
-                  : row.status}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <IconButton>
-                  <SearchIcon className={classes.icon} />
-                </IconButton>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">No</StyledTableCell>
+              <StyledTableCell>Users</StyledTableCell>
+              <StyledTableCell align="left">Trip</StyledTableCell>
+              <StyledTableCell align="left">Proof Payment</StyledTableCell>
+              <StyledTableCell align="left">Status</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, i) => (
+              <StyledTableRow key={i}>
+                <StyledTableCell align="left">{i + 1}</StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  {formatString(row.user.username, 25)}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {formatString(row.trip.title, 25)}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Link
+                    href={`${process.env.server}/images/${row.trip.image}`}
+                    target="_blank"
+                  >
+                    {formatString(row.trip.image, 25)}
+                  </Link>
+                </StyledTableCell>
+                <StyledTableCell
+                  align="left"
+                  style={{
+                    color:
+                      row.status === "approve"
+                        ? "#0ACF83"
+                        : row.status === "cancel"
+                        ? "#FF0742"
+                        : "#F7941E",
+                  }}
+                >
+                  {row.status.toLowerCase() === "waiting payment"
+                    ? "pending"
+                    : row.status}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <IconButton onClick={() => handleOpen(row)}>
+                    <SearchIcon style={{ color: "#2FC5F7" }} />
+                  </IconButton>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <ModalApprove
+        open={open}
+        setOpen={setOpen}
+        item={item}
+        dispatch={dispatch}
+        rows={rows}
+      />
+    </>
   );
 }

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "50px 13vh",
-    minHeight: "81.7vh",
+    minHeight: "81vh",
     display: "flex",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
@@ -59,6 +59,7 @@ export default function Pay() {
         string="string"
         status="Waiting payment"
         attachment=""
+        admin=""
       />
     </Box>
   );

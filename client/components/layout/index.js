@@ -35,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
       outline: "1px solid slategrey",
     },
   },
+  hibicius: {
+    position: "absolute",
+    right: 0,
+    top: 433,
+    zIndex: -999,
+  },
 }));
 
 export default function Layout({ children }) {
@@ -43,16 +49,7 @@ export default function Layout({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       <Navbar />
-      <img
-        style={{
-          position: "absolute",
-          right: 0,
-          top: 433,
-          zIndex: -999,
-        }}
-        src="/hibicius.png"
-        alt=""
-      />
+      <img className={classes.hibicius} src="/hibicius.png" alt="" />
       {children}
       <Footer />
     </div>

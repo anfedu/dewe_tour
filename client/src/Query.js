@@ -31,6 +31,11 @@ function queryReducer(state, action) {
         ...state,
         transaction: action.payload,
       };
+    case "TRANSACTIONUSER":
+      return {
+        ...state,
+        transactionUser: action.payload,
+      };
     default:
       return state;
   }
@@ -42,6 +47,7 @@ function QueryProvider(props) {
     trips: [],
     trip: {},
     transaction: [],
+    transactionUser: [],
   });
 
   const toJSON = (_) => _.json();
@@ -112,15 +118,33 @@ function QueryProvider(props) {
     setLoading(false);
   };
 
+  const getTransactionUser = async (id) => {
+    setLoading(true);
+    await fetch(`${process.env.server}/api/v1/transactionuser/${id}`)
+      .then(toJSON)
+      .then((data) => {
+        dispatch({
+          type: "TRANSACTIONUSER",
+          payload: data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setLoading(false);
+  };
+
   return (
     <QueryContext.Provider
       value={{
         loading,
         state,
+        dispatch,
         getCountry,
         getTrips,
         getTrip,
         getTransaction,
+        getTransactionUser,
       }}
       {...props}
     />

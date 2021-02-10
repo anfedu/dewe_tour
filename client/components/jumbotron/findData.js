@@ -1,13 +1,16 @@
 export function findData(input, arr) {
   try {
-    return arr.filter((user) => {
+    return arr.filter((data) => {
       const regex = new RegExp(input, "gi");
       if (!isNaN(parseInt(input)) || null) {
-        var i = user.id.toString();
+        const i = data.id.toString();
         console.log(i.match(input));
       } else {
-        if (user.name.match(regex) != null && input.length > 1) {
-          return user;
+        if (data.title.match(regex) != null && input.length > 1) {
+          return data;
+        }
+        if (data.country.name.match(regex) != null && input.length > 1) {
+          return data;
         }
       }
     });

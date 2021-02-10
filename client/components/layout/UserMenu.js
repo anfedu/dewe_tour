@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserMenu({ user, logout }) {
+export default function UserMenu({ user, logout, drawerState }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const router = useRouter();
@@ -122,8 +122,11 @@ export default function UserMenu({ user, logout }) {
       >
         <Avatar
           className={classes.avatar}
+          src={user.profile && `${process.env.server}/images/${user.profile}`}
           style={{
             backgroundColor: randomColor(user.phone ? user.phone : "pink"),
+            width: drawerState === "open" && 100,
+            height: drawerState === "open" && 100,
           }}
         >
           {user?.username?.slice(0, 1).toUpperCase()}

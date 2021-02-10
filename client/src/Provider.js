@@ -35,6 +35,7 @@ function AuthProvider(props) {
     if (typeof window !== "undefined") {
       const values = {
         id: localStorage.getItem("id"),
+        token: localStorage.getItem("token"),
         username: localStorage.getItem("username"),
         email: localStorage.getItem("email"),
         phone: localStorage.getItem("phone"),
@@ -72,6 +73,7 @@ function AuthProvider(props) {
     <AuthContext.Provider
       value={{
         user: state.user === null ? values : state.user,
+        dispatch,
         login,
         logout,
       }}
