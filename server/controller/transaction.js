@@ -47,6 +47,10 @@ exports.readOneTransaction = async (req, res) => {
       },
       include: [
         {
+          model: User,
+          as: "user",
+        },
+        {
           model: Trip,
           as: "trip",
           attributes: {
@@ -55,15 +59,6 @@ exports.readOneTransaction = async (req, res) => {
           include: {
             model: Country,
             as: "country",
-            attributes: {
-              exclude: ["createdAt", "updatedAt"],
-            },
-          },
-        },
-        {
-          include: {
-            model: User,
-            as: "user",
             attributes: {
               exclude: ["createdAt", "updatedAt"],
             },
@@ -104,14 +99,10 @@ exports.createTransaction = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
   try {
     const id = req.params.id;
-    const { counterQty, total, status, attachment, tripId } = req.body;
+    const { status } = req.body;
     const transaction = await Transaction.update(
       {
-        counterQty,
-        total,
         status,
-        attachment,
-        tripId,
       },
       {
         where: {
@@ -142,5 +133,43 @@ exports.deleteTransaction = async (req, res) => {
       .send({ status: 200, message: "delete transaction success" });
   } catch (err) {
     res.status(500).send({ status: 500, message: "delete transaction failed" });
+  }
+};
+
+exports.readUserTransaction = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const transaction = await Transaction.findAll({
+      where: {
+        userId,
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+        {
+          model: Trip,
+          as: "trip",
+          attributes: {
+            exclude: ["countryId", "tripId", "createdAt", "updatedAt"],
+          },
+          include: {
+            model: Country,
+            as: "country",
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        },
+      ],
+    });
+    res.status(200).send({
+      status: 200,
+      message: "read transaction success",
+      data: transaction,
+    });
+  } catch (err) {
+    res.status(500).send({ status: 500, message: "read transaction failed" });
   }
 };

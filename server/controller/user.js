@@ -216,13 +216,29 @@ exports.updateUser = async (req, res) => {
       }
     );
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+      },
+      process.env.JWT_SCREET
+    );
+
     if (user) {
       const userResult = await User.findOne({
         where: { id },
         attributes: { exclude: ["createdAt", "updatedAt", "password"] },
       });
       return res.status(200).send({
-        data: userResult,
+        data: {
+          id,
+          username: userResult.username,
+          email: userResult.email,
+          phone: userResult.phone,
+          address: userResult.address,
+          role: userResult.role,
+          profile: userResult.profile,
+          token,
+        },
       });
     }
   } catch (err) {
