@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     height: 255,
     backgroundColor: "#eee",
     [theme.breakpoints.down("xs")]: {
-      width: 250,
-      height: 250,
+      width: 200,
+      height: 200,
       borderRadius: "100%",
     },
   },
@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
     height: 255,
     borderRadius: 5,
     [theme.breakpoints.down("xs")]: {
-      width: 250,
-      height: 250,
+      width: 200,
+      height: 200,
       borderRadius: "100%",
     },
   },
@@ -74,6 +74,8 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       bottom: -70,
+      width: 150,
+      borderRadius: 23,
     },
   },
   textphoto: {
@@ -215,7 +217,7 @@ export default function CardProfile({ user, login }) {
                   style={{}}
                 >
                   <Typography variant="h1" className={classes.textphoto}>
-                    Change Photo Profile
+                    Change {!matches && "Photo"} Profile
                   </Typography>
                 </label>
               </Button>

@@ -8,8 +8,7 @@ export function findData(input, arr) {
       } else {
         if (data.title.match(regex) != null && input.length > 1) {
           return data;
-        }
-        if (data.country.name.match(regex) != null && input.length > 1) {
+        } else if (data.country.name.match(regex) != null && input.length > 1) {
           return data;
         }
       }

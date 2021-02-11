@@ -1,13 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
+import AOS from "aos";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 48,
     fontWeight: "bold",
     [theme.breakpoints.down("xs")]: {
-      fontSize: 36,
+      fontSize: 30,
     },
   },
   subs: {
@@ -22,8 +23,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: 361,
     borderRadius: 5,
+    [theme.breakpoints.down("sm")]: {
+      width: "89vw",
+    },
     [theme.breakpoints.down("xs")]: {
       height: 230,
+      width: "95.5vw",
     },
   },
   screen: {
@@ -48,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Content({ item }) {
   const classes = useStyles();
   const url = process.env.server;
+  AOS.init();
   return (
     <Grid container spacing={1}>
       <Grid item lg={12}>
@@ -60,8 +66,13 @@ export default function Content({ item }) {
       </Grid>
       <Grid item lg={12}>
         <img
+          data-aos="fade-in"
+          data-aos-duration="1000"
           src={`${url}/images/${item.image}`}
           className={classes.image}
+          onLoad={() => console.log("load")}
+          onEnded={() => console.log("end")}
+          onError={() => console.log("err")}
           alt=""
         />
       </Grid>

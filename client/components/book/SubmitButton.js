@@ -133,7 +133,7 @@ export default function SubmitButton({
           )}
         </Button>
       )}
-      <SubmitModal open={open} setOpen={setOpen} />
+      <SubmitModal open={open} setOpen={setOpen} rest="" />
     </>
   );
 }

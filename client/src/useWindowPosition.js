@@ -1,13 +1,13 @@
 import { useLayoutEffect, useState } from "react";
 
-export default function useWindowPosition(id) {
+export default function useWindowPosition(id, number) {
   const [animation, setAnimation] = useState(false);
 
   useLayoutEffect(() => {
     function updatePosition() {
       const offset = window.document.getElementById(id).offsetHeight;
       const pageY = window.pageYOffset;
-      if (pageY > offset * 0.2) {
+      if (pageY > offset * number) {
         setAnimation(true);
       } else if (pageY < offset) {
         setAnimation(false);

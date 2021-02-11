@@ -1,12 +1,18 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../components/layout";
 import Pay from "../../components/pay";
-
-const useStyles = makeStyles((theme) => ({}));
+import { useRouter } from "next/router";
+import { AuthContext } from "../../src/Provider";
 
 export default function index() {
-  const classes = useStyles();
+  const context = React.useContext(AuthContext);
+  const router = useRouter();
+  const { user } = context;
+  React.useEffect(() => {
+    if (user.role !== "Admin" || user.role !== "User") {
+      router.push("/");
+    }
+  }, [user]);
   return (
     <Layout>
       <Pay />

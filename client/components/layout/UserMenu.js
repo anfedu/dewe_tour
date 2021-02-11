@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "17px solid white",
     position: "absolute",
     top: -7,
-    right: theme.spacing(3),
+    right: theme.spacing(2.7),
   },
   menu: {
     marginLeft: 13,
@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       width: 50,
       height: 50,
+      // position: "absolute",
     },
   },
 }));
@@ -125,8 +126,6 @@ export default function UserMenu({ user, logout, drawerState }) {
           src={user.profile && `${process.env.server}/images/${user.profile}`}
           style={{
             backgroundColor: randomColor(user.phone ? user.phone : "pink"),
-            width: drawerState === "open" && 100,
-            height: drawerState === "open" && 100,
           }}
         >
           {user?.username?.slice(0, 1).toUpperCase()}
@@ -151,6 +150,7 @@ export default function UserMenu({ user, logout, drawerState }) {
             <Paper
               style={{
                 width: 220,
+                marginTop: "3%",
               }}
             >
               <Box variant="div" className={classes.arrow} />

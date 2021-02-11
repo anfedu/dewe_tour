@@ -5,6 +5,7 @@ import { AuthContext } from "../../src/Provider";
 import { QueryContext } from "../../src/Query";
 import { CardTransaction } from "../../src/CardFormat";
 import Alert from "@material-ui/lab/Alert";
+import CardTransactionSkeleton from "../skeleton/CardTransactionSkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,20 +63,25 @@ export default function Pay() {
           {alert}
         </Alert>
       )}
-      {items.map((item, index) => (
-        <Box key={index} variant="div">
-          <CardTransaction
-            user={user}
-            price={item.total}
-            count={item.counterQty}
-            item={item.trip}
-            status={item.status}
-            string=""
-            attachment={item.attachment}
-            admin=""
-          />
-        </Box>
-      ))}
+
+      {loading ? (
+        <CardTransactionSkeleton />
+      ) : (
+        items.map((item, index) => (
+          <Box key={index} variant="div">
+            <CardTransaction
+              user={user}
+              price={item.total}
+              count={item.counterQty}
+              item={item.trip}
+              status={item.status}
+              string=""
+              attachment={item.attachment}
+              admin=""
+            />
+          </Box>
+        ))
+      )}
     </Box>
   );
 }

@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     margin: 0,
+    paddingTop: theme.spacing(1),
+    boxShadow: "none",
     [theme.breakpoints.up("lg")]: {
       height: 78,
     },

@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
+    marginTop: -100,
     [theme.breakpoints.down("xs")]: {
-      marginTop: -100,
+      marginTop: -theme.spacing(20),
     },
   },
   button: {
@@ -45,7 +46,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function ModalLogin({ open, setOpen }) {
+export default function ModalLogin({ open, setOpen, rest }) {
   const classes = useStyles();
 
   const handleClose = () => {
@@ -67,19 +68,34 @@ export default function ModalLogin({ open, setOpen }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        fullWidth
       >
-        <DialogContent className={classes.root}>
-          <Typography variant="body1" className={classes.type}>
-            Your payment will be confirmed within 1 x 24 hours
-          </Typography>
-          <Typography variant="body1" className={classes.type}>
-            To see orders click{" "}
-            <Button onClick={onSubmit} className={classes.button}>
-              Here
-            </Button>{" "}
-            thank you
-          </Typography>
-        </DialogContent>
+        {
+          (rest = "rest" ? (
+            <DialogContent className={classes.root}>
+              <Typography
+                variant="body1"
+                className={classes.type}
+                style={{ fontWeight: "bold" }}
+              >
+                Sorry this service is currently full
+              </Typography>
+            </DialogContent>
+          ) : (
+            <DialogContent className={classes.root}>
+              <Typography variant="body1" className={classes.type}>
+                Your payment will be confirmed within 1 x 24 hours
+              </Typography>
+              <Typography variant="body1" className={classes.type}>
+                To see orders click{" "}
+                <Button onClick={onSubmit} className={classes.button}>
+                  Here
+                </Button>{" "}
+                thank you
+              </Typography>
+            </DialogContent>
+          ))
+        }
       </Dialog>
     </>
   );

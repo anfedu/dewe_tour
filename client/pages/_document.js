@@ -23,7 +23,12 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body style={{ overflowX: "hidden", overflowY: "auto" }}>
+        <body
+          style={{
+            overflowX: "hidden",
+            overflowY: "auto",
+          }}
+        >
           <Main />
           <NextScript />
         </body>

@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import Content from "./Content";
 import Information from "./Information";
+import { useRouter } from "next/router";
+import { QueryContext } from "../../src/Query";
+import CardDetailSkeleton from "../skeleton/CardDetailSkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,18 +45,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Detail({ item, loading }) {
+export default function Detail() {
   const classes = useStyles();
+  const router = useRouter();
+  const query = router.query.index;
+  const context = React.useContext(QueryContext);
+  const { state, getTrip, loading, setLoading } = context;
+  const item = state.trip;
+
+  React.useEffect(() => {
+    if (query) {
+      setLoading(true);
+      getTrip(query);
+    }
+  }, [query]);
 
   return (
     <Box variant="div" className={classes.root}>
       {loading ? (
-        "Loading ..."
+        <CardDetailSkeleton />
       ) : (
-        <React.Fragment>
-          <Content loading={loading} item={item} />
+        <Box variant="div">
+          <Content item={item} />
           <Information item={item} />
-        </React.Fragment>
+        </Box>
       )}
     </Box>
   );

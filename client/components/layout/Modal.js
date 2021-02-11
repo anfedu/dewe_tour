@@ -9,7 +9,6 @@ import { AuthContext } from "../../src/Provider";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 416,
-    paddingBottom: 20,
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
@@ -83,21 +82,25 @@ export default function ModalLogin({ open, setOpen }) {
 
   const loginUser = async () => {
     setIsLoading(true);
-    const response = await fetch(
-      `${process.env.server}/api/v1/${open.login ? "login" : "register"}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(logins || registers),
-      }
-    );
+    const url = `${process.env.server}/api/v1/${
+      open.login ? "login" : "register"
+    }`;
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logins || registers),
+    };
+
+    const response = await fetch(url, config);
     const data = await response.json(logins || registers);
+
     setIsLoading(false);
     if (data.status === 500) {
       setErrors(data.error.message);
     }
+
     if (data.status === 200) {
       router.prefetch("/");
       context.login(data.data);
@@ -149,6 +152,7 @@ export default function ModalLogin({ open, setOpen }) {
             setErrors={setErrors}
             values={logins}
             errorType={errorType}
+            setOpen={setOpen}
           />
         </DialogContent>
       </Dialog>

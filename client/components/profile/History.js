@@ -10,9 +10,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     marginLeft: "6.5%",
     marginBottom: "3%",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+      textAlign: "center",
+    },
     [theme.breakpoints.down("xs")]: {
       fontSize: 25,
-      marginLeft: "3%",
+      marginLeft: 0,
+      textAlign: "center",
     },
   },
   container: {

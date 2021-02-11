@@ -147,7 +147,7 @@ export default function Information({ item }) {
           {item.description}
         </Typography>
       </Grid>
-      <Grid item xs={6} lg={6}>
+      <Grid item xs={8} lg={6}>
         <Typography variant="h6" className={classes.price}>
           IDR. {item.price}{" "}
           <span className={classes.count} style={{ color: "black" }}>

@@ -56,6 +56,7 @@ export default function Login({
   setErrors,
   values,
   errorType,
+  setOpen,
 }) {
   const classes = useStyles();
   const loginArr = [
@@ -146,6 +147,7 @@ export default function Login({
           <Button
             color="inherit"
             style={{ textTransform: "none", color: "#777" }}
+            onClick={() => setOpen({ login: false, register: true })}
           >
             Register here
           </Button>

@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
 import TableAdmin from "./TableAdmin";
 import { QueryContext } from "../../src/Query";
+import TableAdminSkeleton from "../skeleton/TableAdminSkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,11 @@ export default function Admin() {
       <Typography variant="h3" className={classes.title}>
         Incoming Transaction
       </Typography>
-      <TableAdmin rows={state?.transaction} dispatch={dispatch} />
+      {loading ? (
+        <TableAdminSkeleton />
+      ) : (
+        <TableAdmin rows={state?.transaction} dispatch={dispatch} />
+      )}
     </Box>
   );
 }

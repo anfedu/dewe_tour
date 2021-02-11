@@ -1,5 +1,8 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import SubmitModal from "../components/book/SubmitModal";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import {
   Card,
   CardActions,
@@ -10,15 +13,14 @@ import {
   Box,
   Divider,
 } from "@material-ui/core";
-import Link from "./Link";
 import { formatDate, dayName, formatMoney, formatString } from "./formatter";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import dynamic from "next/dynamic";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useRouter } from "next/router";
 const SubmitButton = dynamic(() => import("../components/book/SubmitButton"), {
   ssr: false,
 });
-// import Image from "next/image";
 
 const useStyles = makeStyles((theme) => ({
   cardTrip: {
@@ -26,14 +28,30 @@ const useStyles = makeStyles((theme) => ({
     height: 350,
     padding: "7px 9px",
     borderRadius: 5,
+    cursor: "pointer",
+    marginInline: theme.spacing(3),
     "&:hover": {
-      backgroundColor: "#eee",
+      backgroundColor: "#ffffee",
+    },
+    [theme.breakpoints.down("md")]: {
+      width: 500,
     },
     [theme.breakpoints.down("sm")]: {
       width: 500,
     },
     [theme.breakpoints.down("xs")]: {
       width: 350,
+    },
+    // animation: `$skeletons 5000ms ease`,
+  },
+  "@keyframes skeletons": {
+    "0%": {
+      position: "relative",
+      bottom: -300,
+    },
+    "100%": {
+      position: "relative",
+      bottom: 0,
     },
   },
   media: {
@@ -287,16 +305,72 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 18,
     },
   },
+  quota: {
+    position: "absolute",
+    width: 62,
+    height: 28,
+    backgroundColor: "white",
+    opacity: 0.9,
+    paddingTop: 3,
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(34),
+    [theme.breakpoints.down("md")]: {
+      marginLeft: theme.spacing(52),
+      width: 70,
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: theme.spacing(52),
+      width: 70,
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: theme.spacing(34),
+      width: 62,
+    },
+  },
 }));
 
 const url = process.env.server;
 const date = new Date();
 
-export function CardTrip({ item }) {
+export function CardTrip({ item, transaction, index }) {
   const classes = useStyles();
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  const filter = transaction.filter((d) => d.trip.id === item.id);
+  const sold = filter.length;
+  const onTrip = () => {
+    if (sold <= item.quota) {
+      router.push(`/trip/${item.id}`);
+    } else {
+      setOpen(true);
+    }
+  };
+  const enter = {
+    enter: `${((index + 1) / 5).toFixed(2) * 100}s`,
+  };
+  AOS.init({
+    offset: 10,
+  });
+
   return (
-    <Link style={{ textDecoration: "none" }} href={`/trip/${item.id}`}>
-      <Card className={classes.cardTrip}>
+    <>
+      <SubmitModal rest="rest" open={open} setOpen={setOpen} />
+      <Card
+        data-aos="slide-up"
+        data-aos-duration="950"
+        data-aos-dellay="0"
+        data-aos-once="false"
+        className={classes.cardTrip}
+        onClick={onTrip}
+      >
+        <Box variant="div" className={classes.quota}>
+          <Typography
+            variant="body1"
+            style={{ fontSize: 14, fontWeight: "bold" }}
+          >
+            {sold} / {item.quota}
+          </Typography>
+        </Box>
         <img
           className={classes.media}
           onLoad={() => {}}
@@ -318,7 +392,7 @@ export function CardTrip({ item }) {
           </Typography>
         </CardActions>
       </Card>
-    </Link>
+    </>
   );
 }
 
@@ -347,9 +421,13 @@ export function CardTransaction({
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXs = useMediaQuery(theme.breakpoints.down("xs"));
+  AOS.init();
 
   return (
     <Card
+      data-aos="zoom-in"
+      data-aos-duration="850"
+      data-aos-once="true"
       className={classes.cardTransaction}
       style={{
         border: admin === "admin" && "none",

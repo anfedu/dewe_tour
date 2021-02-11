@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: 14,
+      bottom: "-1.3%",
     },
   },
   image: {

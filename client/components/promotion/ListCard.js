@@ -56,6 +56,18 @@ const useStyles = makeStyles((theme) => ({
       paddingInline: 17,
       height: 310,
     },
+    display: "block",
+    animation: `$skeletons 1200ms ease`,
+  },
+  "@keyframes skeletons": {
+    "0%": {
+      position: "relative",
+      bottom: -300,
+    },
+    "100%": {
+      position: "relative",
+      bottom: 0,
+    },
   },
 }));
 

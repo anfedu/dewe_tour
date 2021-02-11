@@ -1,28 +1,35 @@
 import React from "react";
 import Layout from "../../components/layout";
 import Detail from '../../components/detail'
-import { useRouter } from "next/router";
-import { QueryContext } from "../../src/Query";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  hibicius: {
+    position: "absolute",
+    right: 0,
+    top: theme.spacing(57),
+		[theme.breakpoints.down('sm')]: {
+			zIndex: -99
+		}
+  },
+  palm: {
+    position: "absolute",
+    left: 0,
+    top: theme.spacing(99),
+		[theme.breakpoints.down('sm')]: {
+			zIndex: -99
+		}
+  },
+}))
 
 export default function Trip() {
-  const router = useRouter();
-	const [loading, setLoading] = React.useState(false)
-  const query = router.query.index;
-  const context = React.useContext(QueryContext);
-  const { state, getTrip } = context;
-  const item = state.trip
-
-  React.useEffect(() => {
-			setLoading(true)
-		if (query) {
-     getTrip(query);
-		setLoading(false)
-		}
-  }, [query]);
+	const classes = useStyles()
 
   return (
     <Layout>
-      <Detail item={item} loading={loading} />
+      <img className={classes.hibicius} src="/hibicius.png" alt="" />
+      <img className={classes.palm} src="/palm.png" alt="" />
+      <Detail   />
     </Layout>
   );
 }

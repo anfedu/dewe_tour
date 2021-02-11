@@ -1,12 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import ListCard from "./ListCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: -115,
     padding: "0 105px",
+    minHeight: 300,
     [theme.breakpoints.down("md")]: {
       padding: "0 90px",
       marginTop: -75,

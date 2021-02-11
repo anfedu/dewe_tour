@@ -19,3 +19,9 @@ export const useForm = (callback, initialState = {}) => {
     setValues,
   };
 };
+
+// <-------- for smooth scroll to ref ---->
+// const myRef = React.useRef(null);
+// const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+// const executeScroll = () => scrollToRef(myRef);
+// <-------- for smooth scroll to ref ---->

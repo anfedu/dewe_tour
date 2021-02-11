@@ -138,6 +138,7 @@ function QueryProvider(props) {
     <QueryContext.Provider
       value={{
         loading,
+        setLoading,
         state,
         dispatch,
         getCountry,

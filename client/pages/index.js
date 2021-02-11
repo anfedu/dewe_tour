@@ -10,17 +10,30 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "20px 6% 90px 6.5%",
+    minHeight: "30vh",
+    padding: "20px 6.7% 90px 6.7%",
     [theme.breakpoints.down("xs")]: {
       padding: "20px 3px 20px 3px",
     },
   },
   title: {
-    marginTop: 50,
+    marginTop: 70,
     fontSize: 48,
     fontWeight: 800,
     fontFamily: "Nunito",
     textAlign: "center",
+  },
+  hibicius: {
+    position: "absolute",
+    right: 0,
+    top: theme.spacing(57),
+    zIndex: -99,
+  },
+  palm: {
+    position: "absolute",
+    left: 0,
+    top: theme.spacing(99),
+    zIndex: -99,
   },
 }));
 
@@ -36,9 +49,7 @@ export default function Index() {
   return (
     <Layout>
       {user.role === "Admin" ? (
-        <Box variant="div">
-          <Admin />
-        </Box>
+        <Admin />
       ) : (
         <Box variant="div">
           <Jumbotron />
@@ -46,10 +57,22 @@ export default function Index() {
           <Typography variant="h3" className={classes.title}>
             Group Tour
           </Typography>
-          <Grid container spacing={0} className={classes.container}>
+          <Grid
+            container
+            spacing={0}
+            className={classes.container}
+            justify="center"
+          >
             <CardList />
           </Grid>
         </Box>
+      )}
+      {(user.role !== "Admin") &
+      (
+        <React.Fragment>
+          <img className={classes.hibicius} src="/hibicius.png" alt="" />
+          <img className={classes.palm} src="/palm.png" alt="" />
+        </React.Fragment>
       )}
     </Layout>
   );
