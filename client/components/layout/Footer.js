@@ -1,25 +1,24 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#ffaf00",
+    paddingTop: theme.spacing(1.5),
     width: "100%",
     height: "54px",
-    lineHeight: "54px",
     textAlign: "center",
     position: "relative",
     bottom: 0,
     color: "white",
     fontSize: 18,
     fontWeight: 400,
-    [theme.breakpoints.down("md")]: {
-      fontSize: 16,
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: theme.spacing(1.9),
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: 14,
-      bottom: "-1.3%",
+      paddingTop: theme.spacing(1.9),
     },
   },
   image: {
@@ -43,15 +42,31 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  typography: {
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 14,
+    },
+  },
 }));
 
 export default function Footer() {
   const classes = useStyles();
   return (
     <Box variant="div" className={classes.root}>
-      <span className={classes.copy}>Copyright</span> &copy; 2020 Dewe Tour -
-      Ahmad Nuril Firdaus{" "}
-      <span className={classes.reserved}>- DW17YQDIL. All Rights reserved</span>
+      <Typography variant="h6" className={classes.typography}>
+        <span className={classes.copy}>Copyright</span> &copy; 2020
+        <span className={classes.reserved}> Dewe Tour -</span> Ahmad Nuril
+        Firdaus
+        <span className={classes.reserved}>
+          - DW17YQDIL. All Rights reserved
+        </span>
+      </Typography>
       <img src="/cornerFooter.png" className={classes.image} alt="" />
     </Box>
   );

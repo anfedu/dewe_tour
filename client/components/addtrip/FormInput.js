@@ -2,6 +2,7 @@ import React, { Fragment, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, TextField, Container } from "@material-ui/core";
 import dynamic from "next/dynamic";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const SubmitForm = dynamic(() => import("./SubmitForm"), {
   ssr: false,
@@ -22,8 +23,34 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
+  autocomplete: {
+    marginTop: 10,
+    width: "100%",
+    backgroundColor: "#c4c4c4",
+    borderRadius: 5,
+    height: 40,
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderWidth: "2px",
+      borderColor: "#c4c4c4",
+      height: 40,
+      marginTop: 8,
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderWidth: "1px",
+      borderColor: "#222",
+      height: 44,
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderWidth: "1px",
+      borderColor: theme.palette.primary,
+      height: 44,
+      marginTop: 8,
+    },
+    display: "flex",
+    alignItems: "center",
+  },
   cssLabel: {
-    color: "pink",
+    color: "#777",
   },
   cssOutlinedInput: {
     marginTop: 10,
@@ -61,6 +88,13 @@ const useStyles = makeStyles((theme) => ({
       width: 70,
     },
   },
+  option: {
+    fontSize: 15,
+    "& > span": {
+      marginRight: 10,
+      fontSize: 18,
+    },
+  },
 }));
 
 export default function FormInput() {
@@ -71,6 +105,7 @@ export default function FormInput() {
     countryId: false,
     accomodation: false,
     transportation: false,
+    eat: false,
     day: false,
     night: false,
     dateTrip: false,
@@ -84,6 +119,7 @@ export default function FormInput() {
     countryId: "",
     accomodation: "",
     transportation: "",
+    eat: "",
     day: "",
     night: "",
     dateTrip: "",
@@ -97,60 +133,69 @@ export default function FormInput() {
     { id: 2, label: "Country", name: "countryId", type: "text" },
     { id: 3, label: "Accomodation", name: "accomodation", type: "text" },
     { id: 4, label: "Transportation", name: "transportation", type: "text" },
+    { id: 5, label: "Eat", name: "eat", type: "text" },
     {
-      id: 5,
+      id: 6,
       label: "Duration",
       name: { day: "day", night: "night" },
       type: "number",
     },
-    { id: 6, label: "Date Trip", name: "dateTrip", type: "date" },
-    { id: 7, label: "Quota", name: "quota", type: "number" },
-    { id: 7, label: "Price", name: "quota", type: "number" },
-    { id: 8, label: "Description", name: "description", type: "text" },
+    { id: 7, label: "Date Trip", name: "dateTrip", type: "date" },
+    { id: 8, label: "Quota", name: "quota", type: "number" },
+    { id: 9, label: "Price", name: "quota", type: "number" },
+    { id: 10, label: "Description", name: "description", type: "text" },
   ];
 
   const onChange = (e) => {
     const target = e.target.name;
     const value = e.target.value;
+    const onlyNum = value.replace(/[^0-9]/g, "");
     setValues({ ...values, [target]: value });
+
     if (
-      value.length < 3 &&
+      value.length < 5 &&
       [target][0] !== "quota" &&
       [target][0] !== "day" &&
       [target][0] !== "night" &&
       [target][0] !== "price" &&
-      [target][0] !== "countryId" &&
       [target][0] !== "dateTrip"
     ) {
       setErrorType({ [target]: true });
     } else if (
-      [target][0] === "quota" &&
-      value.length < 1 &&
-      typeof value !== "number"
+      ([target][0] === "quota") |
+        ([target][0] === "day") |
+        ([target][0] === "price") |
+        ([target][0] === "night") &&
+      onlyNum.length < 1
     ) {
       setErrorType({ [target]: true });
-    } else if (
-      [target][0] === "day" &&
-      value.length < 1 &&
-      typeof value !== "number"
-    ) {
-      setErrorType({ [target]: true });
-    } else if (
-      [target][0] === "night" &&
-      value.length < 1 &&
-      typeof value !== "number"
-    ) {
-      setErrorType({ [target]: true });
-    } else if (
-      [target][0] === "price" &&
-      value.length < 1 &&
-      typeof value !== "number"
-    ) {
+    } else if ([target][0] === "description" && value.length < 100) {
       setErrorType({ [target]: true });
     } else {
       setErrorType({ [target]: false });
     }
   };
+
+  function countryToFlag(isoCode) {
+    return typeof String.fromCodePoint !== "undefined"
+      ? isoCode
+          .toUpperCase()
+          .replace(/./g, (char) =>
+            String.fromCodePoint(char.charCodeAt(0) + 127397)
+          )
+      : isoCode;
+  }
+
+  const countries = [
+    { id: 1, code: "ID", label: "Indonesia", phone: "62" },
+    { id: 2, code: "AU", label: "Australia", phone: "61" },
+    { id: 4, code: "JP", label: "Japan", phone: "81" },
+    { id: 5, code: "PS", label: "Palestine", phone: "970" },
+    { id: 6, code: "TR", label: "Turkey", phone: "90" },
+    { id: 7, code: "SA", label: "Saudi Arabia", phone: "966" },
+    { id: 8, code: "SA", label: "Kazakstan", phone: "966" },
+    { id: 9, code: "MY", label: "Malaysia", phone: "60" },
+  ];
 
   return (
     <div className={classes.root}>
@@ -166,6 +211,7 @@ export default function FormInput() {
             <Fragment key={index}>
               {item.label !== "Duration" &&
                 item.label !== "Description" &&
+                item.label !== "Country" &&
                 item.label !== "Price" &&
                 item.label !== "Quota" && (
                   <Grid item xs={11} sm={10}>
@@ -178,7 +224,7 @@ export default function FormInput() {
                       error={errorType[item.name] ? true : false}
                       helperText={
                         errorType[item.name] &&
-                        `${item.label} minimum 3 character`
+                        `${item.label} minimum 5 character`
                       }
                       id={`${item.name}`}
                       type={`${item.type}`}
@@ -203,6 +249,48 @@ export default function FormInput() {
                     />
                   </Grid>
                 )}
+              {item.label === "Country" && (
+                <Grid item xs={11} sm={10}>
+                  <label className={classes.label}>{item.label}</label>
+                  <Autocomplete
+                    id="country-select-demo"
+                    options={countries}
+                    className={classes.autocomplete}
+                    getOptionSelected={(option, value) =>
+                      option.id === value.id
+                    }
+                    onChange={(e, value) => {
+                      if (value !== null) {
+                        setValues({ ...values, [e.target.name]: value.id });
+                      }
+                    }}
+                    forcePopupIcon={false}
+                    classes={{
+                      option: classes.option,
+                    }}
+                    autoHighlight
+                    getOptionLabel={(option) => option.label}
+                    renderOption={(option) => (
+                      <React.Fragment>
+                        <span>{countryToFlag(option.code)}</span>
+                        {option.label} ({option.code}) +{option.phone}
+                      </React.Fragment>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        name="countryId"
+                        variant="outlined"
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
+                      />
+                    )}
+                  />
+                </Grid>
+              )}
               {item.label === "Duration" && (
                 <>
                   <Grid item xs={11} sm={10} style={{ marginBottom: -7 }}>
@@ -217,7 +305,7 @@ export default function FormInput() {
                       required
                       size="small"
                       id="day"
-                      type="number"
+                      type="text"
                       name="day"
                       style={{ marginRight: 30 }}
                       autoComplete="day"
@@ -247,7 +335,7 @@ export default function FormInput() {
                       required
                       size="small"
                       id="night"
-                      type="number"
+                      type="text"
                       name="night"
                       autoComplete="night"
                       value={`${values["night"]}`}
@@ -283,7 +371,7 @@ export default function FormInput() {
                     error={errorType["quota"] ? true : false}
                     helperText={errorType["quota"] && `Quota must be number`}
                     id={`${item.name}`}
-                    type="number"
+                    type="text"
                     name={`${item.name}`}
                     autoComplete={`${item.name}`}
                     value={`${values[item.name]}`}
@@ -316,7 +404,7 @@ export default function FormInput() {
                     error={errorType["price"] ? true : false}
                     helperText={errorType["price"] && `Price must be number`}
                     id={`${item.name}`}
-                    type="number"
+                    type="text"
                     name="price"
                     autoComplete={`${item.name}`}
                     value={`${values["price"]}`}
@@ -357,7 +445,8 @@ export default function FormInput() {
                     onChange={onChange}
                     error={errorType[item.name] ? true : false}
                     helperText={
-                      errorType[item.name] && `${item.label} is required`
+                      errorType[item.name] &&
+                      `${item.label} minimum 100 characters`
                     }
                     InputLabelProps={{
                       shrink: true,

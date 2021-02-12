@@ -18,8 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubmitButton({ form, setValues, setPreviewImage }) {
+export default function SubmitButton({
+  form,
+  setValues,
+  setPreviewImage,
+  values,
+}) {
   const classes = useStyles();
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjEzMTA4ODk4fQ.Dm7l-Uz4UJMPqk6BiTtMrRzURN_GfwMUNBgY5JrHDS4";
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = React.useState(false);
   const [alert, setAlert] = React.useState({
@@ -32,6 +39,7 @@ export default function SubmitButton({ form, setValues, setPreviewImage }) {
     countryId: "",
     accomodation: "",
     transportation: "",
+    eat: "",
     day: "",
     night: "",
     dateTrip: "",
@@ -47,8 +55,25 @@ export default function SubmitButton({ form, setValues, setPreviewImage }) {
   };
 
   const fileUpload = async () => {
+    setIsLoading(true);
+    // const url = "http://localhost:5000/api/v1/trip";
     const url = "https://anfdewetourapi.herokuapp.com/api/v1/trip";
-    const data = new FormData(form.current);
+    const data = new FormData();
+    data.append("title", values.title);
+    data.append("countryId", parseInt(values.countryId));
+    data.append("accomodation", values.accomodation);
+    data.append("transportation", values.transportation);
+    data.append("eat", values.eat);
+    data.append("day", parseInt(values.day));
+    data.append("night", parseInt(values.night));
+    data.append("dateTrip", values.dateTrip);
+    data.append("quota", parseInt(values.quota));
+    data.append("price", parseInt(values.price));
+    data.append("description", values.description);
+    data.append("imageTrip", values.imageTrip);
+    data.append("screen1", values.screen1);
+    data.append("screen2", values.screen2);
+    data.append("screen3", values.screen3);
     const config = {
       method: "POST",
       body: data,
@@ -56,8 +81,6 @@ export default function SubmitButton({ form, setValues, setPreviewImage }) {
         Authorization: `Bearer ${token}`,
       },
     };
-
-    setIsLoading(true);
     await fetch(url, config)
       .then((res) => res.json())
       .then((json) => {
@@ -108,7 +131,7 @@ export default function SubmitButton({ form, setValues, setPreviewImage }) {
           onClick={onSubmit}
         >
           {isLoading ? (
-            <CircularProgress style={{ color: "white" }} />
+            <CircularProgress size={23} style={{ color: "white" }} />
           ) : (
             "Submit"
           )}

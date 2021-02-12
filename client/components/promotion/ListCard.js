@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
       height: 310,
     },
     display: "block",
-    animation: `$skeletons 1200ms ease`,
+    // animation: `$skeletons 1200ms ease`,
   },
   "@keyframes skeletons": {
     "0%": {

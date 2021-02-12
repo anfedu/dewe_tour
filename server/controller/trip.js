@@ -48,14 +48,14 @@ exports.readOneTrip = async (req, res) => {
 exports.createTrip = async (req, res) => {
   try {
     const { imageTrip } = req.files;
+    const imageTripName = imageTrip.name;
+    await imageTrip.mv(`./images/${imageTripName}`);
     const { screen1 } = req.files;
     const { screen2 } = req.files;
     const { screen3 } = req.files;
-    const imageTripName = imageTrip.name;
     const screen1Name = screen1.name;
     const screen2Name = screen2.name;
     const screen3Name = screen3.name;
-    await imageTrip.mv(`./images/${imageTripName}`);
     await screen1.mv(`./images/${screen1Name}`);
     await screen2.mv(`./images/${screen2Name}`);
     await screen3.mv(`./images/${screen3Name}`);
@@ -101,34 +101,25 @@ exports.createTrip = async (req, res) => {
 exports.updateTrip = async (req, res) => {
   try {
     const id = req.params.id;
-    const {
-      title,
-      countryId,
-      accomodation,
-      transportation,
-      eat,
-      day,
-      night,
-      dateTrip,
-      price,
-      quota,
-      description,
-      image,
-    } = req.body;
+    const { imageTrip } = req.files;
+    const imageTripName = imageTrip.name;
+    await imageTrip.mv(`./images/${imageTripName}`);
+    const { screen1 } = req.files;
+    const { screen2 } = req.files;
+    const { screen3 } = req.files;
+    const screen1Name = screen1.name;
+    const screen2Name = screen2.name;
+    const screen3Name = screen3.name;
+    await screen1.mv(`./images/${screen1Name}`);
+    await screen2.mv(`./images/${screen2Name}`);
+    await screen3.mv(`./images/${screen3Name}`);
+
     const trip = await Trip.update(
       {
-        title,
-        countryId,
-        accomodation,
-        transportation,
-        eat,
-        day,
-        night,
-        dateTrip,
-        price,
-        quota,
-        description,
-        image,
+        image: imageTripName,
+        screen1: screen1Name,
+        screen2: screen2Name,
+        screen3: screen3Name,
         attributes: {
           exclude: ["createAt", "updateAt"],
         },

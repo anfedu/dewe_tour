@@ -9,7 +9,7 @@ export default function index() {
   const router = useRouter();
   const { user } = context;
   React.useEffect(() => {
-    if (user.role !== "Admin" || user.role !== "User") {
+    if (user.role !== "User") {
       router.push("/");
     }
   }, [user]);

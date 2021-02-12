@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    marginTop: "8%",
     [theme.breakpoints.down("xs")]: {
       marginTop: 50,
     },
@@ -40,9 +39,17 @@ export default function History({ histories, user }) {
 
   return (
     <Grid item lg={12} className={classes.container}>
-      <Typography variant="h3" className={classes.title}>
-        History Trip
-      </Typography>
+      {items.length > 0 && (
+        <Typography
+          variant="h3"
+          className={classes.title}
+          style={{
+            marginTop: "8%",
+          }}
+        >
+          History Trip
+        </Typography>
+      )}
       {items.map((item, i) => (
         <React.Fragment key={i}>
           <CardTransaction
@@ -54,6 +61,7 @@ export default function History({ histories, user }) {
             string=""
             attachment={item.attachment}
             admin=""
+            zoom="zoom-in"
           />
         </React.Fragment>
       ))}

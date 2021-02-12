@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     backgroundColor: "#ffaf00",
     color: "white",
+    height: 50,
     fontSize: 24,
   },
   alert: {
@@ -138,7 +139,7 @@ export default function Register({
               onClick={onSubmit}
             >
               {isLoading ? (
-                <CircularProgress style={{ color: "white" }} />
+                <CircularProgress size={23} style={{ color: "white" }} />
               ) : (
                 "Register"
               )}

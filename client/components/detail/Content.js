@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: "100%",
-    height: 361,
-    borderRadius: 5,
+    height: 400,
+    borderRadius: 7,
     [theme.breakpoints.down("sm")]: {
       width: "89vw",
     },
@@ -53,7 +53,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Content({ item }) {
   const classes = useStyles();
   const url = process.env.server;
-  AOS.init();
+  React.useEffect(() => {
+    if (AOS) {
+      AOS.init();
+    }
+  }, [AOS]);
   return (
     <Grid container spacing={1}>
       <Grid item lg={12}>

@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     display: "flex",
     width: 1035,
-    height: 419,
+    height: 400,
     margin: "0 auto",
     border: "1px solid #878787",
     borderRadius: 5,

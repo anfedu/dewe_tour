@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     fontWeight: "bold",
     backgroundColor: "#ffaf00",
+    height: 50,
     color: "white",
     fontSize: 24,
   },
@@ -135,7 +136,7 @@ export default function Login({
               onClick={onSubmit}
             >
               {isLoading ? (
-                <CircularProgress style={{ color: "white" }} />
+                <CircularProgress size={23} style={{ color: "white" }} />
               ) : (
                 "Login"
               )}

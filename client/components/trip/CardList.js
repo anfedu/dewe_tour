@@ -26,32 +26,32 @@ export default function CardList() {
 
   return (
     <Box variant="div" className={classes.root}>
-      <Grid container spacing={0} justify="center">
-        {loading
-          ? [1, 2, 3].map((item, i) => (
-              <React.Fragment key={i}>
-                <CardTripSkeleton />
-              </React.Fragment>
-            ))
-          : items.map((item, index) => (
-              <Grid
-                item
-                key={index}
-                xs={12}
-                sm={12}
-                md={6}
-                lg={4}
-                align="center"
-                style={{ marginTop: 30 }}
-              >
-                <CardTrip
-                  index={index}
-                  transaction={transactions}
-                  item={item}
-                />
-              </Grid>
-            ))}
-      </Grid>
+      {loading ? (
+        <Grid container spacing={0} justify="center">
+          {[1, 2, 3].map((item, i) => (
+            <React.Fragment key={i}>
+              <CardTripSkeleton />
+            </React.Fragment>
+          ))}
+        </Grid>
+      ) : (
+        <Grid container spacing={0}>
+          {items.map((item, index) => (
+            <Grid
+              item
+              key={index}
+              xs={12}
+              sm={12}
+              md={6}
+              lg={4}
+              align="center"
+              style={{ marginTop: 30 }}
+            >
+              <CardTrip index={index} transaction={transactions} item={item} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 }

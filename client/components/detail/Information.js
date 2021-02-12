@@ -1,10 +1,17 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, IconButton, Divider } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  Hidden,
+  Box,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ButtonBooking from "./ButtonBooking";
-import { formatDate } from "../../src/formatter";
+import { formatDate, formatMoney } from "../../src/formatter";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -108,37 +115,63 @@ export default function Information({ item }) {
   ];
 
   return (
-    <Grid container spacing={1} justify="space-between">
+    <Grid container spacing={1}>
       <Grid item sm={12} xs={12} md={12} lg={12}>
         <Typography variant="h6" className={classes.title}>
           Information Trip
         </Typography>
       </Grid>
-      {array.map((item, i) => (
-        <Grid
-          item
-          xs={6}
-          lg={2}
-          key={i}
-          style={{ marginRight: item.title === "Date Trip" ? -19 : 0 }}
+      <Hidden mdDown>
+        <Box
+          variant="div"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
         >
-          <Typography variant="h6" className={classes.subTitle}>
-            {item.title}
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            <img
-              style={{ position: "relative", top: 4, marginRight: 10 }}
-              src={item.icon}
-              alt=""
-            />
-            {item.title === "Date Trip"
-              ? formatDate(item.value)
-              : item.title === "Duration"
-              ? item.value.day + " Day " + item.value.night + " Night"
-              : item.value}
-          </Typography>
-        </Grid>
-      ))}
+          {array.map((item, i) => (
+            <Box variant="div" key={i}>
+              <Typography variant="h6" className={classes.subTitle}>
+                {item.title}
+              </Typography>
+              <Typography variant="h6" className={classes.body}>
+                <img
+                  style={{ position: "relative", top: 4, marginRight: 10 }}
+                  src={item.icon}
+                  alt=""
+                />
+                {item.title === "Date Trip"
+                  ? formatDate(item.value)
+                  : item.title === "Duration"
+                  ? item.value.day + " Day " + item.value.night + " Night"
+                  : item.value}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Hidden>
+      <Hidden lgUp>
+        {array.map((item, i) => (
+          <Grid item xs={6} lg={2} key={i}>
+            <Typography variant="h6" className={classes.subTitle}>
+              {item.title}
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              <img
+                style={{ position: "relative", top: 4, marginRight: 10 }}
+                src={item.icon}
+                alt=""
+              />
+              {item.title === "Date Trip"
+                ? formatDate(item.value)
+                : item.title === "Duration"
+                ? item.value.day + " Day " + item.value.night + " Night"
+                : item.value}
+            </Typography>
+          </Grid>
+        ))}
+      </Hidden>
       <Grid item lg={12} sm={12} xs={12} style={{ marginBottom: 30 }}>
         <Typography variant="h6" className={classes.title}>
           Description
@@ -149,22 +182,25 @@ export default function Information({ item }) {
       </Grid>
       <Grid item xs={8} lg={6}>
         <Typography variant="h6" className={classes.price}>
-          IDR. {item.price}{" "}
+          IDR. {formatMoney(item.price)}{" "}
           <span className={classes.count} style={{ color: "black" }}>
             {" "}
             / Person
           </span>
         </Typography>
       </Grid>
-      <Typography variant="h6" className={classes.count}>
-        <IconButton className={classes.button} onClick={onMinus}>
-          <RemoveIcon style={{ color: "white" }} />
-        </IconButton>
-        <span className={classes.countWrap}>{count}</span>
-        <IconButton className={classes.button} onClick={onPlus}>
-          <AddIcon style={{ color: "white" }} />
-        </IconButton>
-      </Typography>
+      <Grid item xs={4} lg={6} align="right">
+        <Typography variant="h6" className={classes.count}>
+          <IconButton className={classes.button} onClick={onMinus}>
+            <RemoveIcon style={{ color: "white" }} />
+          </IconButton>
+          <span className={classes.countWrap}>{count}</span>
+          <IconButton className={classes.button} onClick={onPlus}>
+            <AddIcon style={{ color: "white" }} />
+          </IconButton>
+        </Typography>
+      </Grid>
+
       <Grid item xs={12} lg={12}>
         <Divider style={{ height: 3 }} />
       </Grid>
@@ -172,7 +208,7 @@ export default function Information({ item }) {
         Total :
       </Grid>
       <Grid item xs={6} lg={6} className={classes.price} align="right">
-        IDR. {price}
+        IDR. {formatMoney(price)}
       </Grid>
       <Grid item xs={12} lg={12}>
         <Divider style={{ height: 3 }} />

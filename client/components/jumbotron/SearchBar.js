@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cssFocused: {
     fontWeight: 600,
+    border: "2px solid aqua",
     color: "#777",
     "&:hover": {
       border: "2px solid aqua",
@@ -131,8 +132,10 @@ export default function SearchBar() {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
-        setOpen(true);
       }, 1500);
+      setTimeout(() => {
+        setOpen(true);
+      }, 1510);
     }
   };
 
@@ -219,7 +222,7 @@ export default function SearchBar() {
                             variant="body1"
                             className={classes.bodytitle}
                           >
-                            {formatString(item.title, matches ? 10 : 20)}
+                            {formatString(item.title, 20)}
                           </Typography>
                         </Grid>
                         <Grid item xs={4} sm={3} lg={3} align="right">

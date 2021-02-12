@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: "30vh",
     padding: "20px 6.7% 90px 6.7%",
+    overflowX: "hidden",
     [theme.breakpoints.down("xs")]: {
       padding: "20px 3px 20px 3px",
     },
@@ -28,12 +29,18 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     top: theme.spacing(57),
     zIndex: -99,
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
   palm: {
     position: "absolute",
     left: 0,
     top: theme.spacing(99),
     zIndex: -99,
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -67,12 +74,13 @@ export default function Index() {
           </Grid>
         </Box>
       )}
-      {(user.role !== "Admin") &
-      (
-        <React.Fragment>
-          <img className={classes.hibicius} src="/hibicius.png" alt="" />
-          <img className={classes.palm} src="/palm.png" alt="" />
-        </React.Fragment>
+      {user.role !== "Admin" ? (
+        <Box variant="div" style={{ color: "#E5E5E5" }}>
+          <img className={classes.hibicius} src="/hibicius.png" alt="palm" />
+          <img className={classes.palm} src="/palm.png" alt="palm" />
+        </Box>
+      ) : (
+        ""
       )}
     </Layout>
   );

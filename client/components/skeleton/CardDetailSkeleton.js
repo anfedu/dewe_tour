@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 20,
       display: "flex",
       width: 1035,
-      height: 419,
+      height: 690,
       margin: "0 auto",
       border: "1px solid #878787",
       borderRadius: 5,
@@ -66,6 +66,7 @@ export default function CardDetailSkeleton() {
   return (
     <>
       <Skeleton className={classes.title} />
+      <br />
       <Skeleton variant="rect" className={classes.image} />
       <Grid container spacing={1} className={classes.screenWrap}>
         {[1, 2, 3].map((item, index) => (

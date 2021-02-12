@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     display: "flex",
     width: 1035,
-    height: 419,
+    height: 400,
     margin: "0 auto",
     border: "1px solid #878787",
     borderRadius: 5,
@@ -215,7 +215,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Nunito",
     fontSize: 18,
     fontWeight: 800,
-    marginLeft: 30,
     [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
       width: 80,
@@ -230,7 +229,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Nunito",
     fontSize: 18,
     fontWeight: 800,
-    marginLeft: 70,
+    marginLeft: [theme.spacing(3)],
     [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
     },
@@ -246,7 +245,7 @@ const useStyles = makeStyles((theme) => ({
   },
   grid2: {
     position: "relative",
-    top: -93,
+    top: -57,
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
@@ -308,7 +307,7 @@ const useStyles = makeStyles((theme) => ({
   quota: {
     position: "absolute",
     width: 62,
-    height: 28,
+    height: 25,
     backgroundColor: "white",
     opacity: 0.9,
     paddingTop: 3,
@@ -405,6 +404,7 @@ export function CardTransaction({
   status,
   attachment,
   admin,
+  zoom,
 }) {
   const classes = useStyles();
   const [previewImage, setPreviewImage] = React.useState([]);
@@ -421,322 +421,338 @@ export function CardTransaction({
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXs = useMediaQuery(theme.breakpoints.down("xs"));
-  AOS.init();
+
+  React.useEffect(() => {
+    if (AOS) {
+      AOS.init();
+    }
+  }, [AOS]);
 
   return (
-    <Card
-      data-aos="zoom-in"
-      data-aos-duration="850"
-      data-aos-once="true"
-      className={classes.cardTransaction}
-      style={{
-        border: admin === "admin" && "none",
-        boxShadow: admin === "admin" && "none",
-      }}
-    >
-      <Grid container spacing={1}>
-        <Grid item xs={6} sm={6} md={4} lg={4}>
-          <img src="/Icon2.png" className={classes.icon} alt="" />
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.titleTrans}>
-            {item.title}
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item?.country?.name}
-          </Typography>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Chip
-            variant="outlined"
-            size="small"
-            label={
-              status === "approve"
-                ? "Approve"
-                : status === "cancel"
-                ? "Cancel"
-                : "Waiting payment"
-            }
-            className={
-              status === "approve"
-                ? classes.approve
-                : status === "cancel"
-                ? classes.danger
-                : classes.warning
-            }
-          />
-        </Grid>
-        <Grid item md={2} lg={2} className={classes.grid1}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Date Trip
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {formatDate(item.dateTrip)}
-          </Typography>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Accomodation
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.accomodation}
-          </Typography>
-        </Grid>
-        <Grid item md={2} lg={2} className={classes.grid1}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Duration
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.day} Day {item.night} Night
-          </Typography>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Transportation
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.transportation}
-          </Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} md={4} lg={4} align="right">
-          <Typography variant="h4" className={classes.book}>
-            Booking
-          </Typography>
-          <Typography variant="h6" className={classes.date}>
-            <span style={{ fontWeight: 900 }}>{dayName(date)}</span>,{" "}
-            {formatDate(date)}
-          </Typography>
-          <Button
-            variant="outlined"
-            component="label"
-            className={classes.buttonImage}
-            onChange={onChange}
-            style={{
-              padding: Object.keys(previewImage).length > 0 && 0,
-            }}
-          >
-            {attachment.length > 0 ? (
-              <img
-                src={`${process.env.server}/images/${attachment}`}
-                className={classes.image}
-                alt=""
-              />
-            ) : Object.keys(previewImage).length > 0 ? (
-              <img src={previewImage} className={classes.image} alt="" />
-            ) : (
+    <>
+      <Card
+        data-aos={zoom}
+        data-aos-duration="850"
+        data-aos-once="true"
+        className={classes.cardTransaction}
+        style={{
+          border: admin === "admin" && "none",
+          boxShadow: admin === "admin" && "none",
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item xs={6} sm={6} md={4} lg={5}>
+            <img src="/Icon2.png" className={classes.icon} alt="" />
+            {!matches && (
               <React.Fragment>
-                <InsertPhotoIcon
-                  style={{ color: "#878787", width: 50, height: 50 }}
-                />
+                <br />
+                <br />
               </React.Fragment>
             )}
-            <input id="attachment" name="attachmentImage" type="file" hidden />
-            {Object.keys(string).length > 0 && (
-              <label htmlFor="attachment" className={classes.label} style={{}}>
-                Upload payment
-              </label>
+            <Typography variant="h4" className={classes.titleTrans}>
+              {formatString(item.title, 29)}
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item?.country?.name}
+            </Typography>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
             )}
-          </Button>
-        </Grid>
-        <Grid item xs={4} sm={4} className={classes.grid2}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Date Trip
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {formatDate(item.dateTrip)}
-          </Typography>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Accomodation
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.accomodation}
-          </Typography>
-        </Grid>
-        <Grid item xs={8} sm={8} className={classes.grid2}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Duration
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.day} Day {item.night} Night
-          </Typography>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h4" className={classes.subtitle}>
-            Transportation
-          </Typography>
-          <Typography variant="h6" className={classes.body}>
-            {item.transportation}
-          </Typography>
-        </Grid>
-        <Grid item xs={4} sm={1} md={1} lg={1} className={classes.gridUser}>
-          <Typography
-            variant="h6"
-            className={classes.subtitle}
-            style={{ marginTop: matchesXs && 0 }}
-          >
-            No
-          </Typography>
-          <Typography variant="h6" className={classes.user}>
-            {item.id}
-          </Typography>
-          {matchesXs && <br />}
-        </Grid>
-        <Grid item xs={8} sm={5} md={3} lg={3} className={classes.gridUser}>
-          <Typography variant="h6" className={classes.fullName}>
-            Full Name
-          </Typography>
-          <Typography
-            variant="h6"
-            className={classes.user}
-            style={{ marginLeft: !matchesXs && 10 }}
-          >
-            {user.username}
-          </Typography>
-        </Grid>
-        <Grid item xs={4} sm={3} md={2} lg={2} className={classes.gridUser}>
-          <Typography variant="h6" className={classes.subtitle}>
-            Gender
-          </Typography>
-          <Typography variant="h6" className={classes.user}>
-            Male
-          </Typography>
-        </Grid>
-        <Grid item xs={8} sm={3} md={2} lg={2} className={classes.gridUser}>
-          <Typography variant="h6" className={classes.subtitle}>
-            Phone
-          </Typography>
-          <Typography variant="h6" className={classes.user}>
-            {user.phone}
-          </Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} className={classes.grid3}></Grid>
-        <Grid item xs={2} sm={2} md={1} lg={1}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h6" className={classes.qty}>
-            <Box variant="span">Qty</Box>
-            <Box variant="span">:</Box>
-          </Typography>
-          <Typography
-            variant="h6"
-            className={classes.qty}
-            style={{
-              marginTop: 15,
-            }}
-          >
-            <Box variant="span">Total</Box>
-            <Box variant="span">:</Box>
-          </Typography>
-        </Grid>
-        <Grid item xs={4} sm={4} md={3} lg={3}>
-          {!matches && (
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          )}
-          <Typography variant="h6" className={classes.count}>
-            {count}
-          </Typography>
-          <Typography
-            variant="h6"
-            className={classes.count}
-            style={{ color: "red", marginTop: 15 }}
-          >
-            IDR. {formatMoney(price)}
-          </Typography>
-        </Grid>
-        <Grid item lg={12} style={{ position: "absolute" }}>
-          {matchesXs && (
-            <Divider
+            <Chip
+              variant="outlined"
+              size="small"
+              label={
+                status === "approve"
+                  ? "Approve"
+                  : status === "cancel"
+                  ? "Cancel"
+                  : "Waiting payment"
+              }
+              className={
+                status === "approve"
+                  ? classes.approve
+                  : status === "cancel"
+                  ? classes.danger
+                  : classes.warning
+              }
+            />
+          </Grid>
+          <Grid item md={2} lg={2} className={classes.grid1}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Date Trip
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {formatDate(item.dateTrip)}
+            </Typography>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Accomodation
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.accomodation}
+            </Typography>
+          </Grid>
+          <Grid item md={2} lg={2} className={classes.grid1}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Duration
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.day} Day {item.night} Night
+            </Typography>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Transportation
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.transportation}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3} align="right">
+            <Typography variant="h4" className={classes.book}>
+              Booking
+            </Typography>
+            <Typography variant="h6" className={classes.date}>
+              <span style={{ fontWeight: 900 }}>{dayName(date)}</span>,{" "}
+              {formatDate(date)}
+            </Typography>
+            <Button
+              variant="outlined"
+              component="label"
+              className={classes.buttonImage}
+              onChange={onChange}
               style={{
-                height: 1,
-                width: "92vw",
-                position: "absolute",
-                top: 393,
+                padding: Object.keys(previewImage).length > 0 && 0,
+              }}
+            >
+              {attachment.length > 0 ? (
+                <img
+                  src={`${process.env.server}/images/${attachment}`}
+                  className={classes.image}
+                  alt=""
+                />
+              ) : Object.keys(previewImage).length > 0 ? (
+                <img src={previewImage} className={classes.image} alt="" />
+              ) : (
+                <React.Fragment>
+                  <InsertPhotoIcon
+                    style={{ color: "#878787", width: 50, height: 50 }}
+                  />
+                </React.Fragment>
+              )}
+              <input
+                id="attachment"
+                name="attachmentImage"
+                type="file"
+                hidden
+              />
+              {Object.keys(string).length > 0 && (
+                <label
+                  htmlFor="attachment"
+                  className={classes.label}
+                  style={{}}
+                >
+                  Upload payment
+                </label>
+              )}
+            </Button>
+          </Grid>
+          <Grid item xs={4} sm={4} className={classes.grid2}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Date Trip
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {formatDate(item.dateTrip)}
+            </Typography>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Accomodation
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.accomodation}
+            </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} className={classes.grid2}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Duration
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.day} Day {item.night} Night
+            </Typography>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h4" className={classes.subtitle}>
+              Transportation
+            </Typography>
+            <Typography variant="h6" className={classes.body}>
+              {item.transportation}
+            </Typography>
+          </Grid>
+          <Grid item xs={4} sm={1} md={1} lg={1} className={classes.gridUser}>
+            <Typography
+              variant="h6"
+              className={classes.subtitle}
+              style={{ marginTop: matchesXs && 0 }}
+            >
+              No
+            </Typography>
+            <Typography variant="h6" className={classes.user}>
+              {item.id}
+            </Typography>
+            {matchesXs && <br />}
+          </Grid>
+          <Grid item xs={8} sm={5} md={3} lg={3} className={classes.gridUser}>
+            <Typography variant="h6" className={classes.fullName}>
+              Full Name
+            </Typography>
+            <Typography
+              variant="h6"
+              className={classes.user}
+              style={{ marginLeft: !matchesXs && 10 }}
+            >
+              {user.username}
+            </Typography>
+          </Grid>
+          <Grid item xs={4} sm={3} md={2} lg={2} className={classes.gridUser}>
+            <Typography variant="h6" className={classes.subtitle}>
+              Gender
+            </Typography>
+            <Typography variant="h6" className={classes.user}>
+              Male
+            </Typography>
+          </Grid>
+          <Grid item xs={8} sm={3} md={2} lg={2} className={classes.gridUser}>
+            <Typography variant="h6" className={classes.subtitle}>
+              Phone
+            </Typography>
+            <Typography variant="h6" className={classes.user}>
+              {user.phone}
+            </Typography>
+          </Grid>
+          <Grid item xs={2} sm={6} className={classes.grid3}></Grid>
+          <Grid item xs={4} sm={2} md={1} lg={1}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h6" className={classes.qty}>
+              <Box variant="span">Qty</Box>
+              <Box variant="span">:</Box>
+            </Typography>
+            <Typography
+              variant="h6"
+              className={classes.qty}
+              style={{
+                marginTop: 15,
+              }}
+            >
+              <Box variant="span">Total</Box>
+              <Box variant="span">:</Box>
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={4} md={3} lg={3}>
+            {!matches && (
+              <React.Fragment>
+                <br />
+                <br />
+              </React.Fragment>
+            )}
+            <Typography variant="h6" className={classes.count}>
+              {count}
+            </Typography>
+            <Typography
+              variant="h6"
+              className={classes.count}
+              style={{ color: "red", marginTop: 15 }}
+            >
+              IDR. {formatMoney(price)}
+            </Typography>
+          </Grid>
+          <Grid item lg={12}>
+            {matchesXs && (
+              <Divider
+                style={{
+                  height: 1,
+                  width: "92vw",
+                  position: "absolute",
+                  bottom: "17%",
+                }}
+              />
+            )}
+            <Divider
+              className={classes.divider}
+              style={{
+                bottom: "25%",
               }}
             />
-          )}
-          <Divider
-            className={classes.divider}
-            style={{
-              top: 311,
-            }}
-          />
-          <Divider
-            className={classes.divider}
-            style={{
-              top: 353,
-            }}
-          />
+            <Divider
+              className={classes.divider}
+              style={{
+                bottom: "15%",
+              }}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Card>
       {Object.keys(string).length > 0 && (
         <SubmitButton
           user={user}
@@ -747,6 +763,6 @@ export function CardTransaction({
           status={status}
         />
       )}
-    </Card>
+    </>
   );
 }

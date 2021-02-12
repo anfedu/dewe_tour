@@ -26,7 +26,7 @@ export default function MyApp(props) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="icon" href="Icon.png" />
+        <link rel="icon" href="next-js.svg" />
       </Head>
       <ThemeProvider theme={theme}>
         <AuthProvider>

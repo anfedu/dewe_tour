@@ -10,6 +10,7 @@ import { AuthContext } from "../../src/Provider";
 import UserMenu from "./UserMenu";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import Link from "../../src/Link";
 
 const ModalNoSsr = dynamic(() => import("./Modal"), {
   ssr: false,
@@ -21,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     margin: 0,
-    paddingTop: theme.spacing(1),
     boxShadow: "none",
     [theme.breakpoints.up("lg")]: {
-      height: 78,
+      height: theme.spacing(9),
+      padding: "0 5.3%",
     },
   },
   toolbar: {
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     background: "none",
     border: "1px solid white",
     color: "white",
-    marginRight: 20,
+    marginRight: 10,
     height: 30,
     width: 100,
     fontWeight: "bold",
@@ -108,12 +109,13 @@ export default function Navbar({}) {
     >
       <Container>
         <Toolbar className={classes.toolbar}>
-          <img
-            src="/Icon.png"
-            className={classes.icon}
-            alt="dewe tour icon"
-            onClick={() => router.push("/")}
-          />
+          <Link href="/">
+            <img
+              src="/Icon.png"
+              className={classes.icon}
+              alt="dewe tour icon"
+            />
+          </Link>
           <Box className={classes.linkWrap}>
             {Object.values(user)[0] !== null ? (
               <UserMenu user={user} logout={logout} drawerState="" />

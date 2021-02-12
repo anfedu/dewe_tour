@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#C4C4C4",
     width: 200,
     [theme.breakpoints.down("xs")]: {
-      width: 100,
+      width: theme.spacing(3),
     },
   },
   upload: {
@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
     height: 200,
     borderRadius: 10,
     [theme.breakpoints.down("xs")]: {
-      width: 100,
-      height: 100,
+      width: 70,
+      height: 70,
     },
   },
   screen: {
@@ -72,14 +72,13 @@ export default function SubmitForm({ form, values, setValues }) {
 
   const onChange = (e) => {
     let file = e.target.files[0];
+    setValues({
+      ...values,
+      [e.target.name]: file,
+    });
     let reader = new FileReader();
     reader.onload = () => {
       setPreviewImage({ ...previewImage, [e.target.name]: [reader.result] });
-      setValues({
-        ...values,
-        ...previewImage,
-        [e.target.name]: [reader.result],
-      });
     };
     reader.readAsDataURL(file);
   };
@@ -155,6 +154,7 @@ export default function SubmitForm({ form, values, setValues }) {
       <SubmitButton
         form={form}
         setValues={setValues}
+        values={values}
         setPreviewImage={setPreviewImage}
       />
     </>

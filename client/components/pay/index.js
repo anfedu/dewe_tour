@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "50px 13vh",
-    minHeight: "81vh",
+    minHeight: "81.9vh",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
       padding: "50px 3vh",
@@ -78,6 +78,7 @@ export default function Pay() {
               string=""
               attachment={item.attachment}
               admin=""
+              zoom="zoom-in"
             />
           </Box>
         ))

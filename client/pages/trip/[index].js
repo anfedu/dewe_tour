@@ -9,7 +9,10 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     top: theme.spacing(57),
 		[theme.breakpoints.down('sm')]: {
-			zIndex: -99
+      display: 'none'
+		},
+		[theme.breakpoints.down('xs')]: {
+      display: 'none'
 		}
   },
   palm: {
@@ -17,7 +20,10 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     top: theme.spacing(99),
 		[theme.breakpoints.down('sm')]: {
-			zIndex: -99
+      display: 'none'
+		},
+		[theme.breakpoints.down('xs')]: {
+      display: 'none'
 		}
   },
 }))

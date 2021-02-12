@@ -42,10 +42,16 @@ const useStyles = makeStyles((theme) => ({
     height: 35,
     color: "white",
     fontWeight: "bold",
+    position: "absolute",
+    bottom: theme.spacing(2),
+    right: theme.spacing(3),
     backgroundColor: "#0ACF83",
     [theme.breakpoints.down("xs")]: {
       width: 70,
       height: 30,
+      position: "relative",
+      bottom: theme.spacing(0),
+      right: theme.spacing(0),
     },
   },
   cancel: {
@@ -55,13 +61,20 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: "bold",
     backgroundColor: "#FF0742",
+    position: "absolute",
+    bottom: theme.spacing(2),
+    right: theme.spacing(17),
     [theme.breakpoints.down("xs")]: {
       width: 70,
       height: 30,
+      position: "relative",
+      bottom: theme.spacing(0),
+      right: theme.spacing(0),
     },
   },
   actions: {
     overflowX: "hidden",
+    height: 37,
   },
 }));
 
@@ -143,6 +156,7 @@ export default function ModalLogin({ open, setOpen, item, dispatch, rows }) {
             string=""
             attachment={item.attachment}
             admin="admin"
+            zoom=""
           />
         )}
         <DialogActions className={classes.actions}>

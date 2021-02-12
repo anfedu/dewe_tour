@@ -74,10 +74,10 @@ export default function CustomizedTables({ rows, dispatch }) {
                 </StyledTableCell>
                 <StyledTableCell align="left">
                   <Link
-                    href={`${process.env.server}/images/${row.trip.image}`}
+                    href={`${process.env.server}/images/${row.attachment}`}
                     target="_blank"
                   >
-                    {formatString(row.trip.image, 25)}
+                    {formatString(row.attachment, 20)}
                   </Link>
                 </StyledTableCell>
                 <StyledTableCell

@@ -16,21 +16,18 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     bottom: "13%",
     right: "12%",
-    fontFamily: "Nunito",
     fontSize: 18,
     [theme.breakpoints.down("md")]: {
-      right: "5%",
+      right: "8%",
     },
     [theme.breakpoints.down("sm")]: {
       bottom: "10%",
-      right: "3%",
+      right: "1.5%",
       width: 153,
       height: 30,
       fontSize: 16,
     },
     [theme.breakpoints.down("xs")]: {
-      position: "absolute",
-      zIndex: 999,
       bottom: theme.spacing(7),
     },
   },
@@ -124,10 +121,7 @@ export default function SubmitButton({
           onClick={onSubmit}
         >
           {isLoading ? (
-            <CircularProgress
-              size={matches ? 20 : 40}
-              className={classes.circular}
-            />
+            <CircularProgress size={20} className={classes.circular} />
           ) : (
             "Pay"
           )}

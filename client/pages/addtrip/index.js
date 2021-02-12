@@ -12,11 +12,6 @@ export default function addtrip() {
   const context = React.useContext(AuthContext);
   const { user } = context;
   const router = useRouter();
-  React.useEffect(() => {
-    if (user.role !== "Admin" || user.role !== "User") {
-      router.push("/");
-    }
-  }, [user]);
   return (
     <Layout>
       <AddTrip />

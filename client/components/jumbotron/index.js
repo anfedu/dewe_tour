@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: 500,
     color: "white",
-    padding: "50px 6.7%",
+    padding: "50px 8.4% 50px 8.6%",
     [theme.breakpoints.down("md")]: {
       padding: "50px 30px",
     },
@@ -19,20 +19,21 @@ const useStyles = makeStyles((theme) => ({
     height: 70,
   },
   title: {
-    fontWeight: 600,
+    fontWeight: 700,
+    fontFamily: "Poppins",
     transition: "width 2s, height 4s",
     fontSize: 64,
-    letterSpacing: -3,
     [theme.breakpoints.down("xs")]: {
       fontSize: 47,
-      letterSpacing: -2,
+      letterSpacing: -1,
     },
     animation: `$skeletons 1200ms`,
     // display: "block",
   },
   subTitle: {
     fontSize: 64,
-    fontWeight: 0.5,
+    fontFamily: "Poppins",
+    fontWeight: 200,
     letterSpacing: -2,
     animation: `$skeletons 1200ms`,
     display: "block",
@@ -46,10 +47,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   body: {
-    fontFamily: "Nunito",
-    fontWeight: 550,
+    fontFamily: "roboto",
+    fontWeight: 500,
     fontSize: 18,
-    letterSpacing: -0.5,
     marginTop: 50,
   },
   "@keyframes skeletons": {
@@ -76,7 +76,7 @@ export default function Jumbotron() {
         </Typography>
       </Box>
       <Typography variant="h3" className={classes.subTitle}>
-        your amazing city together
+        Your Amazing City Together
       </Typography>
       <Typography variant="h5" className={classes.body}>
         Find great places to holliday
