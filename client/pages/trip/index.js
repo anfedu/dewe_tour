@@ -19,7 +19,9 @@ export default function addtrip() {
   }, [user]);
   return (
     <Layout>
-      <Trip />
+      <div style={{ minHeight: "81.9vh" }}>
+        <Trip />
+      </div>
     </Layout>
   );
 }

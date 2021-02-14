@@ -15,7 +15,9 @@ export default function index() {
   }, [user]);
   return (
     <Layout>
-      <Profile />
+      <div style={{ minHeight: "81.9vh" }}>
+        <Profile />
+      </div>
     </Layout>
   );
 }

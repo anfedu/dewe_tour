@@ -6,10 +6,10 @@ import Navbar from "./Navbar";
 const useStyles = makeStyles((theme) => ({
   root: {
     background:
-      "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(18,18,18,0.3) 90%), url('/jumbotron.png') no-repeat fixed",
+      "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(18,18,18,0.3) 90%, rgba(229,229,229,0.3) 100%), url('/jumbotron.png') no-repeat fixed",
     backgroundSize: "100vw",
     width: "100%",
-    height: "10.35vh",
+    height: 547,
     [theme.breakpoints.down("md")]: {
       background:
         "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,18,18,0.3)), url('/jumbotron.png') no-repeat center center fixed",
@@ -34,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(0,0,0,.1)",
       outline: "1px solid slategrey",
     },
-  },
-  container: {
-    minHeight: "81.9vh",
   },
 }));
 

@@ -34,7 +34,9 @@ export default class MyDocument extends Document {
         <body
           style={{
             overflowX: "hidden",
-            overflowY: "auto",
+            padding: 0,
+            margin: 0,
+            scrollBehavior: "smooth",
           }}
         >
           <Main />

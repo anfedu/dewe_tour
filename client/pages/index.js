@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Layout from "../components/layout";
+import Layout from "../components/layout/Home";
 import Jumbotron from "../components/jumbotron";
 import Promotion from "../components/promotion";
 import { AuthContext } from "../src/Provider";
@@ -7,12 +7,13 @@ import Admin from "../components/admin";
 import { Box, Grid, Typography } from "@material-ui/core";
 import CardList from "../components/trip/CardList";
 import { makeStyles } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: "30vh",
+    width: "100%",
     padding: "20px 6.7% 90px 6.7%",
-    overflowX: "hidden",
     [theme.breakpoints.down("xs")]: {
       padding: "20px 3px 20px 3px",
     },
@@ -55,6 +56,7 @@ export default function Index() {
 
   return (
     <Layout>
+      <CssBaseline />
       {user.role === "Admin" ? (
         <Admin />
       ) : (

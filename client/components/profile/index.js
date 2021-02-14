@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
     padding: "100px 13vh",
-    minHeight: "81.9vh",
+    // minHeight: "81.9vh",
     [theme.breakpoints.down("sm")]: {
       minHeight: "82.99vh",
       padding: "90px 1vh",

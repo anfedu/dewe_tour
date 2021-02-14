@@ -6,8 +6,9 @@ import ListCard from "./ListCard";
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: -115,
-    padding: "0 105px",
+    padding: "0 6.7%",
     minHeight: 300,
+    width: "100%",
     [theme.breakpoints.down("md")]: {
       padding: "0 90px",
       marginTop: -75,
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function index() {
   const classes = useStyles();
   return (
-    <Grid container spacing={3} justify="center" className={classes.root}>
+    <Grid container spacing={0} justify="center" className={classes.root}>
       <ListCard />
     </Grid>
   );

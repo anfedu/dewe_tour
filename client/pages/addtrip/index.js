@@ -14,7 +14,9 @@ export default function addtrip() {
   const router = useRouter();
   return (
     <Layout>
-      <AddTrip />
+      <div style={{ minHeight: "81.9vh" }}>
+        <AddTrip />
+      </div>
     </Layout>
   );
 }

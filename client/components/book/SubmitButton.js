@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: 900,
     position: "absolute",
-    bottom: "13%",
+    bottom: "16%",
     right: "12%",
     fontSize: 18,
     [theme.breakpoints.down("md")]: {
@@ -22,13 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       bottom: "10%",
-      right: "1.5%",
+      right: "3.3%",
       width: 153,
       height: 30,
       fontSize: 16,
     },
     [theme.breakpoints.down("xs")]: {
-      bottom: theme.spacing(7),
+      position: "relative",
+      width: 70,
+      left: "80%",
     },
   },
   circular: {
@@ -36,14 +38,17 @@ const useStyles = makeStyles((theme) => ({
   },
   alert: {
     position: "absolute",
-    width: 960,
-    margin: "0 auto",
-    top: 89,
+    width: "75.5%",
+    top: "10.5%",
+    left: "12.3%",
     [theme.breakpoints.down("sm")]: {
-      width: 590,
+      width: "93.7%",
+      left: "3.2%",
+      top: "9.5%",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "92%",
+      width: "98%",
+      left: 0,
     },
   },
 }));

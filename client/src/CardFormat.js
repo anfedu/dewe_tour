@@ -13,7 +13,13 @@ import {
   Box,
   Divider,
 } from "@material-ui/core";
-import { formatDate, dayName, formatMoney, formatString } from "./formatter";
+import {
+  formatDate,
+  dayName,
+  formatMoney,
+  formatString,
+  Hidden,
+} from "./formatter";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import dynamic from "next/dynamic";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -686,8 +692,7 @@ export function CardTransaction({
               {user.phone}
             </Typography>
           </Grid>
-          <Grid item xs={2} sm={6} className={classes.grid3}></Grid>
-          <Grid item xs={4} sm={2} md={1} lg={1}>
+          <Grid item xs={2} sm={2} md={1} lg={1}>
             {!matches && (
               <React.Fragment>
                 <br />
@@ -709,7 +714,7 @@ export function CardTransaction({
               <Box variant="span">:</Box>
             </Typography>
           </Grid>
-          <Grid item xs={6} sm={4} md={3} lg={3}>
+          <Grid item xs={8} sm={4} md={3} lg={3}>
             {!matches && (
               <React.Fragment>
                 <br />
@@ -728,16 +733,6 @@ export function CardTransaction({
             </Typography>
           </Grid>
           <Grid item lg={12}>
-            {matchesXs && (
-              <Divider
-                style={{
-                  height: 1,
-                  width: "92vw",
-                  position: "absolute",
-                  bottom: "17%",
-                }}
-              />
-            )}
             <Divider
               className={classes.divider}
               style={{
@@ -766,3 +761,14 @@ export function CardTransaction({
     </>
   );
 }
+
+// {matchesXs && (
+//   <Divider
+//     style={{
+//       height: 1,
+//       width: "92vw",
+//       position: "absolute",
+//       bottom: "17%",
+//     }}
+//   />
+// )}

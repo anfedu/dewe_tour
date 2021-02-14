@@ -76,7 +76,14 @@ export default function ListCard() {
   return (
     <>
       {content.map((item, index) => (
-        <Grid item md={6} lg={3} key={index} align="center">
+        <Grid
+          item
+          md={6}
+          lg={3}
+          key={index}
+          align="center"
+          style={{ marginTop: 20 }}
+        >
           <Card className={classes.card}>
             <Box>
               <img src={item.image} alt="promotion" className={classes.image} />

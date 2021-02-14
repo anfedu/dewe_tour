@@ -9,10 +9,7 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     top: theme.spacing(57),
 		[theme.breakpoints.down('sm')]: {
-      display: 'none'
-		},
-		[theme.breakpoints.down('xs')]: {
-      display: 'none'
+			zIndex: -99
 		}
   },
   palm: {
@@ -20,10 +17,7 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     top: theme.spacing(99),
 		[theme.breakpoints.down('sm')]: {
-      display: 'none'
-		},
-		[theme.breakpoints.down('xs')]: {
-      display: 'none'
+			zIndex: -99
 		}
   },
 }))
@@ -33,9 +27,11 @@ export default function Trip() {
 
   return (
     <Layout>
+		<div style={{ minHeight: '81.9vh' }}>
       <img className={classes.hibicius} src="/hibicius.png" alt="" />
       <img className={classes.palm} src="/palm.png" alt="" />
       <Detail   />
+			</div>
     </Layout>
   );
 }

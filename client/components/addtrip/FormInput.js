@@ -18,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     marginTop: theme.spacing(3),
-    width: "100vw",
+    width: "100%",
     [theme.breakpoints.down("xs")]: {
       marginTop: theme.spacing(1),
     },
   },
   autocomplete: {
-    marginTop: 10,
     width: "100%",
     backgroundColor: "#c4c4c4",
     borderRadius: 5,
@@ -53,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#777",
   },
   cssOutlinedInput: {
-    marginTop: 10,
     backgroundColor: "#c4c4c4",
     width: "100%",
   },
@@ -94,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 10,
       fontSize: 18,
     },
+  },
+  textfieldWrap: {
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -205,7 +206,7 @@ export default function FormInput() {
         </Typography>
       </Container>
       <form ref={form} className={classes.form}>
-        <Grid container spacing={2} justify="center">
+        <Grid container spacing={0} justify="center">
           <Grid item xs={11} sm={10}></Grid>
           {tripArr.map((item, index) => (
             <Fragment key={index}>
@@ -214,7 +215,13 @@ export default function FormInput() {
                 item.label !== "Country" &&
                 item.label !== "Price" &&
                 item.label !== "Quota" && (
-                  <Grid item xs={11} sm={10}>
+                  <Grid
+                    item
+                    xs={11}
+                    sm={10}
+                    className={classes.textfieldWrap}
+                    style={{ marginTop: item.label === "Date Trip" && 13 }}
+                  >
                     <label className={classes.label}>{item.label}</label>
                     <TextField
                       variant="outlined"
@@ -250,7 +257,7 @@ export default function FormInput() {
                   </Grid>
                 )}
               {item.label === "Country" && (
-                <Grid item xs={11} sm={10}>
+                <Grid item xs={11} sm={10} className={classes.textfieldWrap}>
                   <label className={classes.label}>{item.label}</label>
                   <Autocomplete
                     id="country-select-demo"
@@ -293,8 +300,12 @@ export default function FormInput() {
               )}
               {item.label === "Duration" && (
                 <>
-                  <Grid item xs={11} sm={10} style={{ marginBottom: -7 }}>
-                    <Typography variant="h6" className={classes.label}>
+                  <Grid item xs={11} sm={10} className={classes.textfieldWrap}>
+                    <Typography
+                      variant="h6"
+                      className={classes.label}
+                      style={{ marginBottom: -9 }}
+                    >
                       {item.label}
                     </Typography>
                   </Grid>
@@ -361,7 +372,7 @@ export default function FormInput() {
                 </>
               )}
               {item.label === "Quota" && (
-                <Grid item xs={11} sm={10}>
+                <Grid item xs={11} sm={10} className={classes.textfieldWrap}>
                   <label className={classes.label}>{item.label}</label>
                   <TextField
                     variant="outlined"
@@ -394,7 +405,7 @@ export default function FormInput() {
                 </Grid>
               )}
               {item.label === "Price" && (
-                <Grid item xs={11} sm={10}>
+                <Grid item xs={11} sm={10} className={classes.textfieldWrap}>
                   <label className={classes.label}>{item.label}</label>
                   <TextField
                     variant="outlined"
@@ -427,7 +438,7 @@ export default function FormInput() {
                 </Grid>
               )}
               {item.label === "Description" && (
-                <Grid item xs={11} sm={10}>
+                <Grid item xs={11} sm={10} className={classes.textfieldWrap}>
                   <label className={classes.label}>{item.label}</label>
                   <TextField
                     variant="outlined"

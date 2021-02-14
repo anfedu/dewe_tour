@@ -15,7 +15,9 @@ export default function index() {
   }, [user]);
   return (
     <Layout>
-      <Pay />
+      <div style={{ minHeight: "81.9vh" }}>
+        <Pay />
+      </div>
     </Layout>
   );
 }
