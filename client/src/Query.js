@@ -58,7 +58,7 @@ function QueryProvider(props) {
       .then(toJSON)
       .then((data) => {
         dispatch({
-          tyle: "COUNTRY",
+          type: "COUNTRY",
           payload: data.data,
         });
       })

@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({}));
 export default function FormAddtripSkeleton() {
   const classes = useStyles();
   return (
-    <Grid container spacing={2} justify="center">
+    <Grid container spacing={0} justify="center">
       <Grid item xs={11} sm={10}>
         <Skeleton style={{ height: 50, width: 200 }} />
       </Grid>

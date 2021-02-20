@@ -14,15 +14,15 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: 900,
     position: "absolute",
-    bottom: "16%",
+    top: theme.spacing(69),
     right: "12%",
     fontSize: 18,
     [theme.breakpoints.down("md")]: {
       right: "8%",
     },
     [theme.breakpoints.down("sm")]: {
-      bottom: "10%",
-      right: "3.3%",
+      top: "80%",
+      right: "4%",
       width: 153,
       height: 30,
       fontSize: 16,

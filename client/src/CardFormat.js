@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "7px 9px",
     borderRadius: 5,
     cursor: "pointer",
-    marginInline: theme.spacing(3),
     "&:hover": {
       backgroundColor: "#ffffee",
     },
@@ -167,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
   },
   date: {
     fontFamily: "Nunito",
-    fontSize: 18,
+    fontSize: 16,
     color: "#878787",
     fontWeight: 300,
     [theme.breakpoints.down("xs")]: {

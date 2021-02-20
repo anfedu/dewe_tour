@@ -63,7 +63,8 @@ export default function ModalLogin({ open, setOpen }) {
 
   function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    const res = re.test(email);
+    return res;
   }
 
   const onChange = (e) => {
@@ -90,11 +91,11 @@ export default function ModalLogin({ open, setOpen }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(logins || registers),
+      body: JSON.stringify(logins),
     };
 
     const response = await fetch(url, config);
-    const data = await response.json(logins || registers);
+    const data = await response.json(logins);
 
     setIsLoading(false);
     if (data.status === 500) {
@@ -106,6 +107,34 @@ export default function ModalLogin({ open, setOpen }) {
       context.login(data.data);
       handleClose();
       setLogins({ email: "", password: "" });
+    }
+    return data;
+  };
+  const registerUser = async () => {
+    setIsLoading(true);
+    const url = `${process.env.server}/api/v1/${
+      open.login ? "login" : "register"
+    }`;
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registers),
+    };
+
+    const response = await fetch(url, config);
+    const data = await response.json(registers);
+
+    setIsLoading(false);
+    if (data.status === 500) {
+      setErrors(data.error.message);
+    }
+
+    if (data.status === 200) {
+      router.prefetch("/");
+      context.login(data.data);
+      handleClose();
       setRegisters({
         username: "",
         email: "",
@@ -117,9 +146,13 @@ export default function ModalLogin({ open, setOpen }) {
     return data;
   };
 
-  const onSubmit = (e) => {
+  const onSubmitLogin = (e) => {
     e.preventDefault();
     loginUser();
+  };
+  const onSubmitRegister = (e) => {
+    e.preventDefault();
+    registerUser();
   };
 
   return (
@@ -147,7 +180,7 @@ export default function ModalLogin({ open, setOpen }) {
           <Login
             isLoading={isLoading}
             onChange={onChange}
-            onSubmit={onSubmit}
+            onSubmit={onSubmitLogin}
             errors={errors}
             setErrors={setErrors}
             values={logins}
@@ -179,7 +212,7 @@ export default function ModalLogin({ open, setOpen }) {
           <Register
             isLoading={isLoading}
             onChange={onChange}
-            onSubmit={onSubmit}
+            onSubmit={onSubmitRegister}
             errors={errors}
             setErrors={setErrors}
             values={registers}

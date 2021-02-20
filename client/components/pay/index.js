@@ -47,7 +47,7 @@ export default function Pay() {
     }
   }, [user.id]);
   React.useEffect(() => {
-    if (state.transactionUser.length > 0) {
+    if (state.transactionUser) {
       setItems(state.transactionUser);
     }
   }, [state.transactionUser]);

@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       width: 350,
+      marginInline: 0,
     },
   },
 }));
@@ -25,9 +26,5 @@ const useStyles = makeStyles((theme) => ({
 export default function CardTripSkeleton() {
   const classes = useStyles();
 
-  return (
-    <>
-      <Skeleton variant="rect" className={classes.cardTrip} />
-    </>
-  );
+  return <Skeleton variant="rect" className={classes.cardTrip} />;
 }

@@ -193,6 +193,7 @@ export default function SearchBar() {
         </Button>
       </Grid>
       {state.trips.length > 0 &&
+        Object.keys(values.search).length > 0 &&
         data.map(
           (item, i) =>
             open && (
@@ -237,7 +238,7 @@ export default function SearchBar() {
               </Grid>
             )
         )}
-      {data.length === 0 && open && (
+      {data.length === 0 && Object.keys(values.search).length === 0 && open ? (
         <Grid
           item
           xs={12}
@@ -254,6 +255,25 @@ export default function SearchBar() {
             Trip not found
           </Alert>
         </Grid>
+      ) : Object.keys(values.search).length === 0 && open ? (
+        <Grid
+          item
+          xs={12}
+          sm={10}
+          md={10}
+          lg={10}
+          style={{ marginTop: 3, zIndex: 999 }}
+        >
+          <Alert
+            severity="error"
+            onClose={() => setOpen(false)}
+            className={classes.alert}
+          >
+            Trip not found
+          </Alert>
+        </Grid>
+      ) : (
+        ""
       )}
     </Grid>
   );

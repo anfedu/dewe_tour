@@ -1,21 +1,20 @@
 import React, { useContext, useEffect } from "react";
-import Layout from "../components/layout/Home";
-import Jumbotron from "../components/jumbotron";
-import Promotion from "../components/promotion";
+import LayoutHome from "../components/layout/Home";
+import Layout from "../components/layout";
 import { AuthContext } from "../src/Provider";
 import Admin from "../components/admin";
 import { Box, Grid, Typography } from "@material-ui/core";
-import CardList from "../components/trip/CardList";
+import CardList from "../components/trip";
 import { makeStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Promotion from "../components/promotion";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    minHeight: "30vh",
     width: "100%",
     padding: "20px 6.7% 90px 6.7%",
     [theme.breakpoints.down("xs")]: {
-      padding: "20px 3px 20px 3px",
+      padding: "20px 3% 20px 3%",
     },
   },
   title: {
@@ -55,13 +54,14 @@ export default function Index() {
   }, []);
 
   return (
-    <Layout>
+    <>
       <CssBaseline />
       {user.role === "Admin" ? (
-        <Admin />
+        <Layout>
+          <Admin />
+        </Layout>
       ) : (
-        <Box variant="div">
-          <Jumbotron />
+        <LayoutHome>
           <Promotion />
           <Typography variant="h3" className={classes.title}>
             Group Tour
@@ -74,7 +74,7 @@ export default function Index() {
           >
             <CardList />
           </Grid>
-        </Box>
+        </LayoutHome>
       )}
       {user.role !== "Admin" ? (
         <Box variant="div" style={{ color: "#E5E5E5" }}>
@@ -84,6 +84,6 @@ export default function Index() {
       ) : (
         ""
       )}
-    </Layout>
+    </>
   );
 }

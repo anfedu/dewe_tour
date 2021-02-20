@@ -2,6 +2,7 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import theme from "../src/theme";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 export default class MyDocument extends Document {
   render() {
@@ -33,7 +34,7 @@ export default class MyDocument extends Document {
         </Head>
         <body
           style={{
-            overflowX: "hidden",
+            // overflowX: "hidden",
             padding: 0,
             margin: 0,
             scrollBehavior: "smooth",

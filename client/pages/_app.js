@@ -6,7 +6,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import { AuthProvider } from "../src/Provider";
 import { QueryProvider } from "../src/Query";
-// import "../src/onHoverStyle.css";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -26,7 +25,7 @@ export default function MyApp(props) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="icon" href="next-js.svg" />
+        <link rel="icon" href="logo.svg" />
       </Head>
       <ThemeProvider theme={theme}>
         <AuthProvider>

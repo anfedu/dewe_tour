@@ -10,7 +10,7 @@ import CardTransactionSkeleton from "../skeleton/CardTransactionSkeleton";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#E5E5E5",
-    padding: "50px 13vh",
+    padding: "9vh 13vh",
     // minHeight: "81.9vh",
     [theme.breakpoints.down("md")]: {
       minHeight: "82.99vh",
@@ -42,7 +42,8 @@ export default function Pay() {
   const context = React.useContext(AuthContext);
   const query = React.useContext(QueryContext);
   const { user } = context;
-  const { state, getTrip } = query;
+  const { state, getTrip, loading } = query;
+  const [item, setItem] = React.useState({});
 
   React.useEffect(() => {
     if (tripId) {
@@ -50,17 +51,24 @@ export default function Pay() {
       setBlank(false);
     }
   }, [tripId]);
+  React.useEffect(() => {
+    if (state.trip) {
+      setItem(state.trip);
+    }
+  }, [state.trip]);
 
   return (
     <Box variant="div" className={classes.root}>
       {blank ? (
+        <CardTransactionSkeleton />
+      ) : loading ? (
         <CardTransactionSkeleton />
       ) : (
         <CardTransaction
           user={user}
           price={price}
           count={count}
-          item={state.trip}
+          item={item}
           string="string"
           status="Waiting payment"
           attachment=""
