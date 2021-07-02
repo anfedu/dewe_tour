@@ -2,7 +2,7 @@
 
 Applikasi Travel Agent pemesanan tiket dibuat menggunakan 
 
-Server: 
+Server : 
 - Node js 
 - Express js 
 - Sequelize 
